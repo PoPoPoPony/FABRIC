@@ -9,8 +9,17 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@element-plus/nuxt": "^1.0.5",
     "@nuxt/devtools": "latest",
+    "@nuxtjs/device": "^3.1.0",
+    "@nuxtjs/pwa": "^3.3.5",
     "@types/node": "^18.17.0",
-    "nuxt": "^3.6.5"
+    "@vite-pwa/nuxt": "^0.1.0",
+    "autoprefixer": "^10.4.14",
+    "element-plus": "^2.3.8",
+    "nuxt": "^3.6.5",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3",
+    "vite-plugin-pwa": "^0.16.4"
   }
 }

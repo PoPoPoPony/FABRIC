@@ -1,3 +1,9 @@
+
+
+# ignore service worker
+sw.*
+
+
 # Nuxt dev/build outputs
 .output
 .nuxt
