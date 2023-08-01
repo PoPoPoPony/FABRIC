@@ -25,7 +25,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   pages: true,
   pwa: {
     // workbox: {

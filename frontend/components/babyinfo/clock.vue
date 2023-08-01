@@ -12,26 +12,24 @@ export default {
     mounted() {
         this.$nextTick(() => {
             // reset clock data after parent element rendered
-            const element = this.$refs.clock_container
-            this.clock_width = element.offsetWidth
-            this.set_clock_data()
-            this.set_sub_clock_data()
-            // console.log(this.clock_width)
-            this.clock_key+=1
-            this.sub_clock_key+=1
+            this.clock_width = window.innerWidth
+            this.clock_show_able = true
         })
     },
     data() {
         // width="48" height="48"
         return { 
-            linear_gradient_1: "#ffffff 0%",
-            linear_gradient_2: "#ffffff 20%",
-            linear_gradient_3: "#f97316 30%",
-            linear_gradient_4: "#f97316 100%",
+            linear_gradient_1: "#CBCBCB 0%",
+            linear_gradient_2: "#CBCBCB  20%",
+            linear_gradient_3: "#ff9416 30%",
+            linear_gradient_4: "#ff9416 100%",
             rotate_degree: "162deg",
-            clock_width: 300,
+            // 
+            clock_width: 0,
             clock_key: 0,
             sub_clock_key: 0,
+            clock_show_able: false,
+            kk:0,
         }
     },
     methods: {
@@ -42,9 +40,8 @@ export default {
                 background: `linear-gradient(${this.linear_gradient_1}, ${this.linear_gradient_2}, ${this.linear_gradient_3}, ${this.linear_gradient_4})`,
                 'border-radius': '50%',
                 'background-color': '#f97316',
-                width: `${this.clock_width*0.9}px`,
-                height: `${this.clock_width*0.9}px`,
-                
+                width: `${this.clock_width*0.8}px`,
+                height: `${this.clock_width*0.8}px`,
             };
         },
 
@@ -55,9 +52,9 @@ export default {
                 top: `${this.clock_width*0.05}px`,
                 left: `${this.clock_width*0.05}px`,
                 content: "",
-                width: `${this.clock_width*0.8}px`,
-                height: `${this.clock_width*0.8}px`,
-                'background-color': '#d4d4d4',
+                width: `${this.clock_width*0.7}px`,
+                height: `${this.clock_width*0.7}px`,
+                'background-color': '#e5e5e5',
                 'background-repeat': 'no-repeat',
                 'background-size': 'cover',
                 'border-radius': '50%',
@@ -79,9 +76,9 @@ export default {
 </script>
 
 <template>
-    <div class="content-center" ref="clock_container">
-        <div :style="set_clock_data()" :key="clock_key">
-            <div :style="set_sub_clock_data()" :key="sub_clock_key">
+    <div class="content-center">
+        <div class="content-center" :style="set_clock_data()" v-if="clock_show_able">
+            <div :style="set_sub_clock_data()" :key="sub_clock_key" v-if="clock_show_able">
                 <div class="grid grid-rows-5 grid-cols-5 w-full h-full gap-1">
                     <div class="row-start-2 row-span-1 col-span-5 text-center font-bold text-lg">
                         {{ message }}
@@ -96,8 +93,8 @@ export default {
                         <div class="text-center top-0 ">
                             下午 3:23
                         </div>
-                        <button class="rounded-full bg-orange-500 ml-1 mt-2 ">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-14 h-14">
+                        <button class="rounded-full bg-orange-400 ml-1 mt-2 w-15 h-15 justify-self-center p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-11 h-11 justify-self-center">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                             </svg>
                         </button>
