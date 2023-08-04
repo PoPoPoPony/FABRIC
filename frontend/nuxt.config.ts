@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     'nuxt-swiper',
   ],
+  swiper: {
+    // modules: ['pagination']
+  },
   // elementPlus: { /** Options */ },
   app: {
     pageTransition: {
@@ -35,7 +38,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   pages: true,
   pwa: {
     // workbox: {
