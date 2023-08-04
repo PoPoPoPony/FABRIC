@@ -13,7 +13,9 @@ export default {
     },
     data() {
         // four page name: babyinfo / statistic / knowledge / account
-        return 0
+        return {
+            
+        }
     },
     methods: {
         onBabyinfoClick() {

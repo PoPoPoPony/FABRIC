@@ -33,7 +33,55 @@ export default {
                 <span class="text-orange-400">品軒</span>
                 <span class="text-slate-800">推薦</span>
             </div>
+            <div class="mx-5 mt-3">
+                <Swiper
+                    :modules="[SwiperPagination, SwiperEffectCreative]"
+                    :slides-per-view="1"
+                    :pagination="true"
+                    :loop="false"
+                    :effect="'creative'"
+                    :autoplay="{
+                    delay: 8000,
+                    disableOnInteraction: true,
+                    }"
+                    :creative-effect="{
+                        prev: {
+                            shadow: false,
+                            translate: ['-20%', 0, -1],
+                        },
+                        next: {
+                            translate: ['100%', 0, 0],
+                        },
+                    }"
+                > 
+            
+                <SwiperSlide>
+                    <div style="background-color: red;"></div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div style="background-color: green;"></div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div style="background-color: blue;"></div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div style="background-color: yellow;"></div>
+                </SwiperSlide>
+
+            
+                </Swiper>
+
+
+
+            </div>
+
+
+
+
+
+            
         </div>
+        
 
 
 

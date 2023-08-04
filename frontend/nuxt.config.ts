@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     '@nuxtjs/device',
     '@element-plus/nuxt',
+    'nuxt-swiper',
   ],
   // elementPlus: { /** Options */ },
   app: {
@@ -18,7 +19,16 @@ export default defineNuxtConfig({
       mode: "out-in"
     }
   },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.scss'],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "sass:math"; @use "sass:string";'
+        }
+      }
+    }
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
