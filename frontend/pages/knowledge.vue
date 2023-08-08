@@ -40,11 +40,6 @@ export default {
                 <span class="text-slate-800">推薦</span>
             </div>
             <div class="mx-5 mt-3 rounded-lg row-start-4 row-span-5 col-start-1 col-span-1">
-                <!-- :autoplay="{
-                        delay: 8000,
-                        disableOnInteraction: true,
-                        createPagination: true
-                    }" -->
                 <Swiper
                     :modules="[SwiperPagination, SwiperEffectCreative]"
                     :slides-per-view="1"
@@ -77,6 +72,8 @@ export default {
                 </div>
             </div>
         </div>
+        <!-- grid grid-cols-1 grid-rows-10 -->
+        <div class="mt-2 g-no-repeat bg-cover w-full h-screen bg-neutral-50 "></div>
         
 
 

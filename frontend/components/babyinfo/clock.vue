@@ -190,7 +190,7 @@ export default {
 
 
 .clock {
-    @include border-ring(#FF9416 #CBCBCB, 10px, 330);
+    @include border-ring(#FF9416 #CBCBCB, 10px, 170);
     animation-name: clock_animation;
     animation-duration: 1s;
     animation-timing-function: cubic-bezier(0,1.08,0,1.01);
@@ -198,7 +198,7 @@ export default {
 
 
 @keyframes clock_animation {
-    $degree: 330;
+    $degree: 170;
     // $degree_frame: ();
 
     @for $i from 1 through 100 {
