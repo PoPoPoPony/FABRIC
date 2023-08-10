@@ -65,7 +65,7 @@ export default {
                     v-if="swiper_show"
                 > 
             
-                    <SwiperSlide class="rounded-lg swiper-slide" v-for="slide in 5">
+                    <SwiperSlide class="rounded-lg swiper-slide" v-for="slide in 5" :key="slide">
                         <knowledge-slider-with-caption class="rounded-lg" :idx="slide" />
                     </SwiperSlide>
                 </Swiper>
@@ -77,10 +77,10 @@ export default {
         <!-- grid grid-cols-1 grid-rows-10 -->
         <div class="mt-2 no-repeat w-full bg-cover bg-neutral-50 ">
             <div class="px-3 flex scroll-smooth w-full h-12 py-2 overflow-x-scroll justify-start gap-x-3 null_scroll_bar"> 
-                <knowledge-title-btn v-for="idx in titles.length" :title="titles[idx-1]"></knowledge-title-btn>
+                <knowledge-title-btn v-for="idx in titles.length" :title="titles[idx-1]" :key="idx"></knowledge-title-btn>
             </div>
             <div class="px-3 w-full h-full overflow-y-hidden grid grid-cols-1 divide-y"> 
-                <knowledge-news v-for="idx in few_news.length"></knowledge-news>
+                <knowledge-news v-for="idx in few_news.length" :key="idx"></knowledge-news>
             </div>
         </div>
         
