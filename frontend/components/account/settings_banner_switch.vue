@@ -1,0 +1,34 @@
+<template>
+    <div class="w-full h-10 py-1 grid grid-cols-10">
+        <div class="col-span-3 font-bold py-1 pl-4"> {{ label }}</div>
+        <!-- scale-125 -->
+        <div class="col-start-9 col-span-2">
+            <el-switch
+                v-model="switch_value"
+                class="scale-y-150 scale-x-125"
+                inline-prompt
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+                active-text=""
+                inactive-text=""
+                v-if="switch_show"
+            />
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    props: ["label", "switch_value"],
+    mounted() {
+        this.switch_show = true
+    },
+    data() {
+        return {
+            switch_value: this.switch_value,
+            switch_show: false,
+        }
+    }
+}
+</script>
+<style lang="scss">
+    
+</style>
