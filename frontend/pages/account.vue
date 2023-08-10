@@ -23,8 +23,8 @@
         <div class="my-8 mx-4">
             <p class="text-start text-xl font-bold font-sans ">通知</p>
             <div class="rounded-lg bg-neutral-50 w-full divide-y">
-                <account-settings-banner-switch label="裝置" :switch_value="true"/>
-                <account-settings-banner-switch label="靈敏度" :switch_value="false"/>
+                <account-settings-banner-switch label="裝置" :user_label="true"/>
+                <account-settings-banner-switch label="靈敏度" :user_label="false"/>
             </div>
         </div>
         <div class="my-8 mx-4">
@@ -32,12 +32,20 @@
                 登出
             </button>
         </div>
+        <div class="absolute inset-x-0 bottom-0 h-12  bg-neutral-50">
+            <footer_banner :page_type="page_type" class=""/>
+        </div>
     </div>
 </template>
 
 
 <script>
 export default {
+    data () {
+        return {
+            page_type: "account"
+        }
+    },
     methods: {
         onClick() {
             console.log("123")

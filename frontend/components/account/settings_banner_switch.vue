@@ -17,13 +17,13 @@
 </template>
 <script>
 export default {
-    props: ["label", "switch_value"],
+    props: ["label", "user_label"],
     mounted() {
         this.switch_show = true
     },
     data() {
         return {
-            switch_value: this.switch_value,
+            switch_value: this.user_label,
             switch_show: false,
         }
     }

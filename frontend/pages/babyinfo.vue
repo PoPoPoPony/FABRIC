@@ -35,8 +35,15 @@ export default {
         <div class="grid grid-cols-8 gap-1 pt-10">
             <p class="col-start-2 col-span-8 text-center text-lg font-sans font-bold">寶貝動態</p>
             <div class="col-start-10 col-span-1 justify-self-end pr-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="000000" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="000000" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-7 h-7">
+                    <g clip-path="url(#clip0_78_990)">
+                    <path d="M12.0002 2C11.289 2 10.7145 2.55859 10.7145 3.25V4C7.78146 4.57812 5.57164 7.10156 5.57164 10.125V10.8594C5.57164 12.6953 4.87655 14.4688 3.62298 15.8438L3.32565 16.168C2.98815 16.5352 2.9078 17.0625 3.11271 17.5117C3.31762 17.9609 3.77967 18.25 4.28592 18.25H19.7145C20.2207 18.25 20.6788 17.9609 20.8877 17.5117C21.0966 17.0625 21.0123 16.5352 20.6748 16.168L20.3774 15.8438C19.1239 14.4688 18.4288 12.6992 18.4288 10.8594V10.125C18.4288 7.10156 16.219 4.57812 13.2859 4V3.25C13.2859 2.55859 12.7114 2 12.0002 2ZM13.8203 21.2695C14.3024 20.8008 14.5716 20.1641 14.5716 19.5H12.0002H9.42878C9.42878 20.1641 9.69798 20.8008 10.1801 21.2695C10.6623 21.7383 11.3172 22 12.0002 22C12.6832 22 13.3382 21.7383 13.8203 21.2695Z" fill="black"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_78_990">
+                    <rect width="18" height="20" fill="white" transform="translate(3 2)"/>
+                    </clipPath>
+                    </defs>
                 </svg>
             </div>
         </div>

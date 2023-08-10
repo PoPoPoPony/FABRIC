@@ -83,23 +83,6 @@ export default {
                 <knowledge-news v-for="idx in few_news.length" :key="idx"></knowledge-news>
             </div>
         </div>
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div class="absolute inset-x-0 bottom-0 h-12 bg-neutral-50" >
             <footer_banner :page_type="page_type" class=""></footer_banner>
         </div>
