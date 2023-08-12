@@ -59,8 +59,8 @@ export default {
             </p>
         </button>
 
-        <div class="absolute -top-3 w-12 h-12 col-start-5 col-span-2 row-start-1 row-span-6 place-self-center items-center">
-            <button class="w-12 w-12 p-1 rounded-full bg-orange-400 justify-self-center shadow-2xl shadow-black">
+        <div class="absolute -top-5 w-12 h-12 col-start-5 col-span-2 row-start-1 row-span-6 place-self-center items-center">
+            <button class="w-12 p-1 rounded-full bg-orange-400 justify-self-center shadow-2xl shadow-black">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-10 h-10 col-start-5 col-span-2 row-start-1 row-span-6 text-white justify-self-center">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>

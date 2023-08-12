@@ -28,11 +28,11 @@
             </div>
         </div>
         <div class="my-8 mx-4">
-            <button id="logout_btn" class="hover:text-neutral-50 py-2 rounded-lg bg-neutral-50 hover:bg-red-600 w-full px-4 text-red-600 font-bold text-center" @click="onClick"> 
+            <button id="logout_btn" class="hover:text-neutral-50 py-2 rounded-lg bg-neutral-50 hover:bg-red-600 w-full px-4 text-red-600 font-bold text-center"> 
                 登出
             </button>
         </div>
-        <div class="absolute inset-x-0 bottom-0 h-12  bg-neutral-50">
+        <div class="fixed bottom-0 pt-2 w-full h-12 bg-neutral-50">
             <footer_banner :page_type="page_type" class=""/>
         </div>
     </div>
@@ -47,9 +47,7 @@ export default {
         }
     },
     methods: {
-        onClick() {
-            console.log("123")
-        },
+
     },
 }
 </script>

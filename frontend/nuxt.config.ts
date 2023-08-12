@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "sass:math"; @use "sass:string";'
+          additionalData: '@use "sass:math"; @use "sass:string"; '
         }
       }
     }

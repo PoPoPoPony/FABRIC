@@ -31,7 +31,7 @@ export default {
 
 
 <template>
-    <div class="bg-no-repeat bg-cover w-full h-screen bg-neutral-200">
+    <div class="relative bg-no-repeat bg-cover w-full h-screen bg-neutral-200">
         <div class="grid grid-cols-8 gap-1 pt-10">
             <p class="col-start-2 col-span-8 text-center text-lg font-sans font-bold">寶貝動態</p>
             <div class="col-start-10 col-span-1 justify-self-end pr-3">
@@ -74,24 +74,31 @@ export default {
         <!-- </div> -->
 
         <!-- class="px-3"  -->
-        <el-scrollbar :always="true" id="scroll_bar" class="justify-evenly ">
-            <div class="scrollbar-flex-content mt-5">
-                <babyinfo-clock class="px-7" message="距離下次更換尿布"/>
-                <babyinfo-clock class="px-7" message="距離下次起床"/>
-                <babyinfo-clock class="px-7" message="距離下次餵奶"/>
-                <babyinfo-clock class="px-7" message="距離下次睡覺"/>
-                <babyinfo-clock class="px-7" message="距離下次散步"/>
-            </div>
-        </el-scrollbar>
-        <div class="absolute inset-x-0 bottom-0 h-60 bg-neutral-50 rounded-t-3xl drop-shadow-2xl" >
+        <div>
+            <el-scrollbar :always="true" id="scroll_bar" class="justify-evenly ">
+                <div class="scrollbar-flex-content mt-5">
+                    <babyinfo-clock class="px-7" message="距離下次更換尿布"/>
+                    <babyinfo-clock class="px-7" message="距離下次起床"/>
+                    <babyinfo-clock class="px-7" message="距離下次餵奶"/>
+                    <babyinfo-clock class="px-7" message="距離下次睡覺"/>
+                    <babyinfo-clock class="px-7" message="距離下次散步"/>
+                </div>
+            </el-scrollbar>
+        </div>
+
+
+
+        <div class=" pt-2 w-full h-96  bg-neutral-50 rounded-t-3xl drop-shadow-2xl" >
             <div class="grid grid-cols-2 mt-6 mx-5 items-end">
                 <span class="font-bold col-start-1 col-span-1 text-xl">快速紀錄</span>
                 <span class="font-bold col-start-2 col-span-1 text-sm text-end text-orange-500">編輯</span>
                 <babyinfo-record-panel class="py-3 mt-3 col-span-2"/>
+                <babyinfo-record-panel class="py-3 mt-3 col-span-2"/>
+
             </div>
             
         </div>
-        <div class="absolute inset-x-0 bottom-0 h-12" >
+        <div class="fixed bottom-0 pt-2 w-full h-12 bg-neutral-50" >
             <footer_banner :page_type="page_type" class=""></footer_banner>
         </div>
     </div>

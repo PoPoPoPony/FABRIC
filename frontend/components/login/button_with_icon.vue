@@ -38,13 +38,15 @@ export default {
 </script>
 
 <template>
-    <button class="rounded-3xl bg-zinc-200 p-2 self-center">
-        <div class="flex items-center justify-center">
-            <!-- <img src="path/to/image.jpg"> -->
-            <div class="mr-3 w-8 h-8" v-html="svg_tag"></div>
-            <div>
-                <strong>Continue with {{icon_name}}</strong>
+    <div class="w-full">
+        <button class="rounded-3xl bg-zinc-200 p-2  w-full">
+            <div class="flex items-center justify-center">
+                <!-- <img src="path/to/image.jpg"> -->
+                <div class="mr-3 w-8 h-8" v-html="svg_tag"></div>
+                <div>
+                    <strong>Continue with {{icon_name}}</strong>
+                </div>
             </div>
-        </div>
-    </button>
+        </button>
+    </div>
 </template>

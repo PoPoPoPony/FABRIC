@@ -72,6 +72,7 @@ export default {
             <div class="rounded-full col-start-4 text-slate-950 text-end col-span-1 row-start-5 row-span-2 justify-self-center">
                 睡覺
             </div>
+            
         </div>
         
     </div>
