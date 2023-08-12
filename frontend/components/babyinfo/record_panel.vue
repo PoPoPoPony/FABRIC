@@ -1,6 +1,7 @@
 <script>
-import mother_icon from '~/assets/babyinfo/mother@3x.png'
+
 import baby_bottle_icon from '~/assets/babyinfo/baby_bottle@3x.png'
+import mother_icon from '~/assets/babyinfo/mother@3x.png'
 import bread_icon from '~/assets/babyinfo/bread@3x.png'
 import happy_icon from '~/assets/babyinfo/happy@3x.png'
 import heart_icon from '~/assets/babyinfo/heart@3x.png'

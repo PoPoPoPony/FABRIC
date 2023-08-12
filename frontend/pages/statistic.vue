@@ -1,4 +1,16 @@
 <script>
+import capoo_1 from '~/assets/babyinfo/capoo_1.png'
+import capoo_2 from '~/assets/babyinfo/capoo_2.png'
+import capoo_3 from '~/assets/babyinfo/capoo_3.png'
+import capoo_4 from '~/assets/babyinfo/capoo_4.png'
+import capoo_5 from '~/assets/babyinfo/capoo_5.png'
+import capoo_6 from '~/assets/babyinfo/capoo_6.png'
+import mother_icon from '~/assets/babyinfo/mother@3x.png'
+import water_icon from '~/assets/babyinfo/water@3x.png'
+import poop_icon from '~/assets/babyinfo/poop@3x.png'
+import sleep_icon from '~/assets/babyinfo/sleep@3x.png'
+
+
 export default {
     props: [],
     created () {
@@ -8,6 +20,11 @@ export default {
     },
     mounted() {
         this.date_swiper_show = true
+        this.max_time = Math.max(...this.event_report_infos.map((x)=>x.time))
+        this.event_report_banner_show = true
+    },
+    computed () {
+        
     },
     data() {
         return {
@@ -33,16 +50,58 @@ export default {
                 "2023年6月10日",
                 "2023年6月11日",
             ],
-            date_swiper_show: false
+            date_swiper_show: false,
+
+
+            capoo_pic_lst: [
+                capoo_1, capoo_2, capoo_3, capoo_4, capoo_5, capoo_6
+            ],
+            capoo_name_lst: [
+                "capoo_1", "capoo_2", "capoo_3", "capoo_4", "capoo_5", "capoo_6"
+            ],
+            current_baby_idx: 0,
+            baby_idx_keys: [
+                400, 500, 600, 700, 800, 900
+            ],
+            
+            event_report_infos: [{
+                icon: water_icon,
+                label: "尿尿",
+                time: 15
+            }, {
+                icon: mother_icon,
+                label: "母乳",
+                time: 5
+            }, {
+                icon: poop_icon,
+                label: "便便",
+                time: 6
+            }, {
+                icon: sleep_icon,
+                label: "睡覺",
+                time: 4
+            }],
+            max_time: 0,
+            event_report_banner_show: false,
         }
     },
     methods: {
         time_freq_change(time_freq) {
-            let past_time_freq = this.current_time_freq
-            this.current_time_freq = time_freq
-            this.time_freq_keys[past_time_freq]+=1
-            this.time_freq_keys[time_freq]+=1
-        }
+            if (time_freq != this.current_time_freq) {
+                let past_time_freq = this.current_time_freq
+                this.current_time_freq = time_freq
+                this.time_freq_keys[past_time_freq]+=1
+                this.time_freq_keys[time_freq]+=1
+            }
+        },
+        change_current_baby_idx (idx) {
+            if (idx != this.current_baby_idx) {
+                let past_idx = this.current_baby_idx
+                this.current_baby_idx = idx
+                this.baby_idx_keys[past_idx]+=1
+                this.baby_idx_keys[idx]+=1
+            }
+        },
     }
 }
 
@@ -69,8 +128,12 @@ export default {
                         nextEl: $refs.navigation_next
                     }" -->
             <div class="grid grid-cols-10">
-                <div class="col-start-1 col-span-2 place-self-center">
-                    <button ref="navigation_prev">123</button>
+                <div class="col-start-1 col-span-2 relative">
+                    <button ref="navigation_prev" class="absolute bottom-0 right-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-orange-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
                 </div>
                 <div class="col-start-3 col-span-6">
                     <Swiper
@@ -99,11 +162,22 @@ export default {
                         </SwiperSlide>
                     </Swiper>
                 </div>
-                <div class="col-start-9 col-span-2 place-self-center">
-                    <button ref="navigation_next">456</button>
+                <div class="col-start-9 col-span-2 relative">
+                    <button ref="navigation_next" class="absolute bottom-0 left-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-orange-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
                 </div>
-                
-                
+            </div>
+            <div class="flex scroll-smooth overflow-x-scroll w-full mt-8 px-3 justify-start gap-x-3 null_scroll_bar">
+                <babyinfo-button-with-pic v-for="i in 6" :label_idx="i-1" :current_idx="current_baby_idx" :key="baby_idx_keys[i-1]" :img_src="capoo_pic_lst[i-1]" :name="capoo_name_lst[i-1]" @change_current_idx="change_current_baby_idx"/>
+            </div>
+            <div class="my-8 mx-4">
+                <p class="text-start text-xl font-bold font-sans ">活動摘要</p>
+                <div v-if="event_report_banner_show" class="rounded-lg bg-neutral-50 w-full px-4 py-2">
+                    <statistic-event-report-banner v-for="i in 4" :icon="event_report_infos[i-1].icon" :label="event_report_infos[i-1].label" :time="event_report_infos[i-1].time " :max_time="max_time"/>
+                </div>
             </div>
         </div>
         
@@ -126,20 +200,9 @@ export default {
 
 
 <style lang="scss" scoped>
-// .swiper-button-prev::after {
-//     color: orange
-// }
-
-// .swiper::part(button-prev) {
-//     color: orange;
-// }
-
-// .swiper-button-next::after {
-//     color: orange
-// }
-
-.swiper>.swiper-button-next::after {
-    color: red;
+.null_scroll_bar::-webkit-scrollbar {
+    display: none;
 }
+
 
 </style>

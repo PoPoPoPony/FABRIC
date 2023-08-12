@@ -35,10 +35,12 @@ export default {
     },
     methods: {
         change_current_title(title) {
-            let past_title = this.current_title
-            this.current_title = title
-            this.title_keys[past_title]+=1
-            this.title_keys[title]+=1
+            if (title != this.current_title) {
+                let past_title = this.current_title
+                this.current_title = title
+                this.title_keys[past_title]+=1
+                this.title_keys[title]+=1
+            }
         }
     }
 

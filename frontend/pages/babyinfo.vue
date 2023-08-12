@@ -1,4 +1,14 @@
 <script>
+import capoo_1 from '~/assets/babyinfo/capoo_1.png'
+import capoo_2 from '~/assets/babyinfo/capoo_2.png'
+import capoo_3 from '~/assets/babyinfo/capoo_3.png'
+import capoo_4 from '~/assets/babyinfo/capoo_4.png'
+import capoo_5 from '~/assets/babyinfo/capoo_5.png'
+import capoo_6 from '~/assets/babyinfo/capoo_6.png'
+
+
+
+
 export default {
     props: [],
     created () {
@@ -7,22 +17,32 @@ export default {
         
     },
     mounted() {
-        this.$nextTick(() => {
-            this.key+=1
-        })
-        
+
     },
     data() {
-        // width="48" height="48"
         return { 
-            key:0,
             page_type: "babyinfo",
+            capoo_pic_lst: [
+                capoo_1, capoo_2, capoo_3, capoo_4, capoo_5, capoo_6
+            ],
+            capoo_name_lst: [
+                "capoo_1", "capoo_2", "capoo_3", "capoo_4", "capoo_5", "capoo_6"
+            ],
+            current_baby_idx: 0,
+            baby_idx_keys: [
+                0, 100, 200, 300, 400, 500
+            ],
         }
     },
     methods: {
-        on_clock_change(scope) {
-            console.log(scope.$index)
-        }
+        change_current_baby_idx (idx) {
+            if (idx != this.current_baby_idx) {
+                let past_idx = this.current_baby_idx
+                this.current_baby_idx = idx
+                this.baby_idx_keys[past_idx]+=1
+                this.baby_idx_keys[idx]+=1
+            }
+        },
     }
 }
 
@@ -48,32 +68,9 @@ export default {
             </div>
         </div>
         <div class="flex scroll-smooth overflow-x-scroll w-full mt-8 px-3 justify-start gap-x-3 null_scroll_bar">
-            <babyinfo-button-with-pic v-for="i in 6" :name="i-1"/>
+            <!-- key 只是先暫時讓每個key間隔很遠(更新時+1才不會重複)，需找到比較好的方法更新 -->
+            <babyinfo-button-with-pic v-for="i in 6" :label_idx="i-1" :current_idx="current_baby_idx" :key="baby_idx_keys[i-1]" :img_src="capoo_pic_lst[i-1]" :name="capoo_name_lst[i-1]" @change_current_idx="change_current_baby_idx"/>
         </div>
-        
-
-        <!-- <div class="px-3">
-            <ul class="snap-x flex  overflow-x-scroll justify-start mt-5 w-full mr-auto scroll_bar_padding" :key="key">
-                <li class="snap-center" >
-                    <babyinfo-clock message="距離下次更換尿布"/>
-                </li>
-                <li class="snap-center">
-                    <babyinfo-clock message="距離下次起床"/>
-                </li>
-                <li class="snap-center">
-                    <babyinfo-clock message="距離下次餵奶"/>
-                </li>
-                <li class="snap-center">
-                    <babyinfo-clock message="距離下次睡覺"/>
-                </li>
-                <li class="snap-center">
-                    <babyinfo-clock message="距離下次散步"/>
-                </li>
-            </ul> -->
-            <!-- <div class="rounded ..."></div> -->
-        <!-- </div> -->
-
-        <!-- class="px-3"  -->
         <div>
             <el-scrollbar :always="true" id="scroll_bar" class="justify-evenly ">
                 <div class="scrollbar-flex-content mt-5">
