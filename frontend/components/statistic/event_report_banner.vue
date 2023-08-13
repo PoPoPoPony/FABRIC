@@ -16,11 +16,14 @@ export default {
         let numerator = Math.max(1, Math.floor(this.time*7/this.max_time))
         this.progressive_bar_class = 'col-span-'+String(numerator)
         this.text_class = 'col-start-'+String(numerator+4)
+        this.component_show = true
+        
     },
     data() {
         return {
             progressive_bar_class: '',
-            text_class: ''
+            text_class: '',
+            component_show: false,
         }
     },
     methods: {
@@ -33,7 +36,7 @@ export default {
 </script>
 
 <template>
-    <div class="w-full grid grid-cols-12 p-2">
+    <div v-if="component_show" class="w-full grid grid-cols-12 p-2">
         <img :src="icon" class="col-span-1 col-start-1">
         <span class="col-span-2 col-start-2 text-sm text-center self-center">{{ label }}</span>
         <div class="col-start-4 bg-orange-500 my-2 rounded-lg progressive_bar_ani" :class="progressive_bar_class"/>

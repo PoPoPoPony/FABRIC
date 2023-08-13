@@ -44,7 +44,7 @@ export default {
 </script>
 
 <template>
-    <button v-if="btn_show" class="rounded-full drop-shadow-md px-5 py-1 self-center mb-5" :class="bg_class" @click="on_click">
+    <button v-if="btn_show" class="rounded-full drop-shadow-md px-5 py-1 self-center mb-2" :class="bg_class" @click="on_click">
         <div class="flex items-center justify-center ">
             <img :src="img_src" class="object-contain h-8 w-12 rounded-full">
             <span class="mr-2" :class="text_class">{{ name }}</span>

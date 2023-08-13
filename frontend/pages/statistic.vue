@@ -52,7 +52,7 @@ export default {
             ],
             date_swiper_show: false,
 
-
+            // 寶貝
             capoo_pic_lst: [
                 capoo_1, capoo_2, capoo_3, capoo_4, capoo_5, capoo_6
             ],
@@ -64,6 +64,7 @@ export default {
                 400, 500, 600, 700, 800, 900
             ],
             
+            // 活動摘要
             event_report_infos: [{
                 icon: water_icon,
                 label: "尿尿",
@@ -83,6 +84,11 @@ export default {
             }],
             max_time: 0,
             event_report_banner_show: false,
+
+            // 排泄狀況
+            poop_colors: ["#F26262", "#FFA843", "#FFCC4A", "#AFE867", "#5FD680"],
+            user_poop_idx: 2,
+            poop_label: ["非常慘", "慘", "普通", "正常", "很棒"]
         }
     },
     methods: {
@@ -123,13 +129,9 @@ export default {
                     <statistic-time-freq-btn class="col-span-1" v-for="time_freq in time_freqs" :time_freq="time_freq" :current_time_freq="current_time_freq" :key="time_freq_keys[time_freq]" @time_freq_change="time_freq_change" />
                 </div>
             </div>
-            <!-- :navigation="{
-                        prevEl: $refs.navigation_prev,
-                        nextEl: $refs.navigation_next
-                    }" -->
             <div class="grid grid-cols-10">
                 <div class="col-start-1 col-span-2 relative">
-                    <button ref="navigation_prev" class="absolute bottom-0 right-0">
+                    <button ref="navigation_prev" class="absolute inset-x-6 bottom-0">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-orange-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                         </svg>
@@ -163,7 +165,7 @@ export default {
                     </Swiper>
                 </div>
                 <div class="col-start-9 col-span-2 relative">
-                    <button ref="navigation_next" class="absolute bottom-0 left-0">
+                    <button ref="navigation_next" class="absolute bottom-0 right-6">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-orange-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                         </svg>
@@ -173,10 +175,24 @@ export default {
             <div class="flex scroll-smooth overflow-x-scroll w-full mt-8 px-3 justify-start gap-x-3 null_scroll_bar">
                 <babyinfo-button-with-pic v-for="i in 6" :label_idx="i-1" :current_idx="current_baby_idx" :key="baby_idx_keys[i-1]" :img_src="capoo_pic_lst[i-1]" :name="capoo_name_lst[i-1]" @change_current_idx="change_current_baby_idx"/>
             </div>
-            <div class="my-8 mx-4">
+            <div class="my-6 mx-4">
                 <p class="text-start text-xl font-bold font-sans ">活動摘要</p>
                 <div v-if="event_report_banner_show" class="rounded-lg bg-neutral-50 w-full px-4 py-2">
                     <statistic-event-report-banner v-for="i in 4" :icon="event_report_infos[i-1].icon" :label="event_report_infos[i-1].label" :time="event_report_infos[i-1].time " :max_time="max_time"/>
+                </div>
+            </div>
+            <div class="my-8 mx-4">
+                <p class="text-start text-xl font-bold font-sans ">排泄狀況</p>
+                <div class="rounded-lg bg-neutral-50 w-full px-4 py-2">
+                    <div class="grid grid-cols-5 gap-0.5 mt-10 mb-5">
+                        <statistic-p-bar-diff-color-rounded class="col-span-1" v-for="i in user_poop_idx+1" :color="poop_colors[i-1]" :index="i-1" :user_poop_index="user_poop_idx"/>
+                    </div>
+                    <div class="font-bold text-2xl text-center" :style="{'color': poop_colors[user_poop_idx]}">
+                        {{ poop_label[user_poop_idx] }}
+                    </div>
+                    <div class="font-bold text-xs text-center mt-2">
+                        依據您的寶貝排泄狀況與我們<br>的匿名資料庫比對結果
+                    </div>
                 </div>
             </div>
         </div>

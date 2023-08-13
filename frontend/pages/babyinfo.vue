@@ -67,7 +67,7 @@ export default {
                 </svg>
             </div>
         </div>
-        <div class="flex scroll-smooth overflow-x-scroll w-full mt-8 px-3 justify-start gap-x-3 null_scroll_bar">
+        <div class="flex scroll-smooth overflow-x-scroll w-full mt-8 px-3 justify-start gap-x-3 null_scroll_bar mb-3">
             <!-- key 只是先暫時讓每個key間隔很遠(更新時+1才不會重複)，需找到比較好的方法更新 -->
             <babyinfo-button-with-pic v-for="i in 6" :label_idx="i-1" :current_idx="current_baby_idx" :key="baby_idx_keys[i-1]" :img_src="capoo_pic_lst[i-1]" :name="capoo_name_lst[i-1]" @change_current_idx="change_current_baby_idx"/>
         </div>
