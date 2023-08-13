@@ -72,7 +72,7 @@ export default {
             }, {
                 icon: mother_icon,
                 label: "母乳",
-                time: 5
+                time: 4
             }, {
                 icon: poop_icon,
                 label: "便便",
