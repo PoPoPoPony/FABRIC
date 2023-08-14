@@ -25,6 +25,7 @@
     "vite-plugin-pwa": "^0.16.4"
   },
   "dependencies": {
-    "nuxt-swiper": "^1.2.0"
+    "nuxt-swiper": "^1.2.0",
+    "tw-elements": "^1.0.0-beta3"
   }
 }

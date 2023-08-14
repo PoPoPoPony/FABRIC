@@ -1,0 +1,79 @@
+<template>
+      <div
+      class="relative"
+      v-show="datepicker_show"
+      data-te-input-wrapper-init
+      ref="date_picker"
+      >
+
+      <input
+        type="text"
+        class="block w-full rounded border-0 focus:border-black bg-transparent px-3 py-1 data-[te-input-state-active] font-bold" :value="default_date"
+        style="background-color: #EEEEEF; color: black;" />
+    </div>
+  </template>
+
+<script>
+  import { Datepicker, Input, initTE } from "tw-elements";
+
+  export default {
+    props:["default_date"],
+    created() {
+      initTE({ Datepicker, Input })
+    },
+    mounted() {
+      new Datepicker(
+        this.$refs.date_picker, {
+          format: "yyyy/mm/dd",
+          startDate: this.date,
+          // inline: true
+          disableFuture: true,
+          disableInput: false
+        }, {
+          datepickerToggleButton: 'flex items-center justify-content-center [&>svg]:w-5 [&>svg]:h-5 absolute outline-none border-none bg-transparent right-0.5 top-1/2 -translate-x-1/2 -translate-y-1/2 text-black dark:text-black',
+        }
+      );
+
+      this.$refs.date_picker.addEventListener(
+        "dateChange.te.datepicker", 
+        (event) => this.get_date_str(event)
+      );
+
+      this.datepicker_show = true
+    },
+    data() {
+      return {
+        date: this.default_date,
+        datepicker_show: false,
+      }
+    },
+    methods: {
+      get_date_str(event) {
+        let year = event.date.getFullYear() // 西元年
+        let month = event.date.getMonth()+1 // 月的indx (+1後才是真正的月份)
+        let date = event.date.getDate() // 日
+        // console.log(event.date.getDay()); 星期幾
+
+        if (month<10) {
+          month = '0'+String(month)
+        } else {
+          month = String(month)
+        }
+
+        if (date<10) {
+          date = '0'+String(date)
+        } else {
+          date = String(date)
+        }
+
+        let date_str = String(year)+'/'+month+'/'+date
+        this.date = date_str
+        console.log(this.date)
+      }
+    },
+  }
+</script>
+
+<style scoped>
+
+</style>

@@ -68,7 +68,7 @@ export default {
             event_report_infos: [{
                 icon: water_icon,
                 label: "尿尿",
-                time: 15
+                time: 1
             }, {
                 icon: mother_icon,
                 label: "母乳",
@@ -87,7 +87,7 @@ export default {
 
             // 排泄狀況
             poop_colors: ["#F26262", "#FFA843", "#FFCC4A", "#AFE867", "#5FD680"],
-            user_poop_idx: 2,
+            user_poop_idx: 4,
             poop_label: ["非常慘", "慘", "普通", "正常", "很棒"]
         }
     },

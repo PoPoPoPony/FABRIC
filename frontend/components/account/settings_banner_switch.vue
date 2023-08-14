@@ -1,11 +1,10 @@
 <template>
     <div class="w-full h-10 py-1 grid grid-cols-10">
         <div class="col-span-3 font-bold py-1 pl-4"> {{ label }}</div>
-        <!-- scale-125 -->
         <div class="col-start-9 col-span-2">
             <el-switch
                 v-model="switch_value"
-                class="scale-y-150 scale-x-150 transform-gpu"
+                class="scale-y-125 scale-x-125 transform-gpu"
                 inline-prompt
                 style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
                 active-text=""

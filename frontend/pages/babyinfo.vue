@@ -5,6 +5,14 @@ import capoo_3 from '~/assets/babyinfo/capoo_3.png'
 import capoo_4 from '~/assets/babyinfo/capoo_4.png'
 import capoo_5 from '~/assets/babyinfo/capoo_5.png'
 import capoo_6 from '~/assets/babyinfo/capoo_6.png'
+import baby_bottle_icon from '~/assets/babyinfo/baby_bottle@3x.png'
+import mother_icon from '~/assets/babyinfo/mother@3x.png'
+import bread_icon from '~/assets/babyinfo/bread@3x.png'
+import happy_icon from '~/assets/babyinfo/happy@3x.png'
+import heart_icon from '~/assets/babyinfo/heart@3x.png'
+import poop_icon from '~/assets/babyinfo/poop@3x.png'
+import sleep_icon from '~/assets/babyinfo/sleep@3x.png'
+import water_icon from '~/assets/babyinfo/water@3x.png'
 
 
 
@@ -32,6 +40,14 @@ export default {
             baby_idx_keys: [
                 0, 100, 200, 300, 400, 500
             ],
+            mother_icon: mother_icon,
+            baby_bottle_icon: baby_bottle_icon,
+            bread_icon: bread_icon,
+            happy_icon: happy_icon,
+            heart_icon: heart_icon,
+            poop_icon: poop_icon,
+            sleep_icon: sleep_icon,
+            water_icon: water_icon
         }
     },
     methods: {
@@ -89,11 +105,20 @@ export default {
             <div class="grid grid-cols-2 mt-6 mx-5 items-end">
                 <span class="font-bold col-start-1 col-span-1 text-xl">快速紀錄</span>
                 <span class="font-bold col-start-2 col-span-1 text-sm text-end text-orange-500">編輯</span>
-                <babyinfo-record-panel class="py-3 mt-3 col-span-2"/>
-                <babyinfo-record-panel class="py-3 mt-3 col-span-2"/>
+                <div class="bg-no-repeat bg-cover w-full bg-neutral-100 rounded-3xl py-3 mt-3 col-span-2">
+                    <div class="grid grid-rows-2 grid-cols-4 mt-3 mx-3 justify-evenly gap-4">
+                        <babyinfo-record-panel-item class="col-start-1 col-span-1 row-start-1 row-span-1" :img_src="mother_icon" label="母乳"/>
+                        <babyinfo-record-panel-item class="col-start-2 col-span-1 row-start-1 row-span-1" :img_src="baby_bottle_icon" label="配方奶"/>
+                        <babyinfo-record-panel-item class="col-start-3 col-span-1 row-start-1 row-span-1" :img_src="bread_icon" label="點心"/>
+                        <babyinfo-record-panel-item class="col-start-4 col-span-1 row-start-1 row-span-1" :img_src="sleep_icon" label="睡覺"/>
+                        <babyinfo-record-panel-item class="col-start-1 col-span-1 row-start-2 row-span-1" :img_src="water_icon" label="尿尿"/>
+                        <babyinfo-record-panel-item class="col-start-2 col-span-1 row-start-2 row-span-1" :img_src="poop_icon" label="便便"/>
+                        <babyinfo-record-panel-item class="col-start-3 col-span-1 row-start-2 row-span-1" :img_src="happy_icon" label="散步"/>
+                        <babyinfo-record-panel-item class="col-start-4 col-span-1 row-start-2 row-span-1" :img_src="heart_icon" label="擠奶"/>
+                    </div>
 
+                </div>
             </div>
-            
         </div>
         <div class="fixed bottom-0 pt-2 w-full h-12 bg-neutral-50" >
             <footer_banner :page_type="page_type" class=""></footer_banner>
