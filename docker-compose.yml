@@ -40,48 +40,38 @@ services:
         target: /var/lib/postgresql/data
     container_name: postgres
 
-
-  nuxt_dev:
-    build:
-      context: .
-    image: nuxt_dev
-    container_name: nuxt_dev
-    command: npm run dev
+  nuxt-dev:
+    # build:
+    #   context: ./frontend
+    #   dockerfile: Dockerfile
+    # image: node:20.5.1
+    image: node:16.18.0-alpine
+    working_dir: /frontend
     volumes:
-    - ./frontend:/frontend
-    - /frontend/node_modules
+      - ./frontend:/frontend
+    expose:
+      - 3000
+      - 24678
     ports:
-      - "80:3000"
-      - "24678:24678"
+      - 3000:3000
+      - 24678:24678
+    environment:
+      - NUXT_PORT=3000
+    container_name: nuxt-dev
+    command: sh -c "npm install && npm run dev"
 
-
-
-
-
-
-
-  # nuxt:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./frontend:/frontend
-  #   ports:
-  #     - 3000:3000
-  #   container_name: nuxt
-
-  # nginx:
-  #   image: nginx:stable-alpine3.17
-  #   volumes:
-  #     - ./nginx:/etc/nginx
-  #     - ./frontend:/frontend
-  #   ports:
-  #     - 80:80
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - NGINX_HOST=${NGINX_HOST}
-  #     - NGINX_PORT=80
-  #   depends_on:
-  #     - nuxt
-  #   container_name: nginx
+  nginx:
+    image: nginx:stable-alpine3.17
+    volumes:
+      - ./nginx:/etc/nginx
+      - ./frontend:/frontend
+    ports:
+      - 80:80
+    env_file:
+      - .env
+    environment:
+      - NGINX_HOST=${NGINX_HOST}
+      - NGINX_PORT=80
+    depends_on:
+      - nuxt-dev
+    container_name: nginx

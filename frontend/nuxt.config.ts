@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     'nuxt-swiper',
   ],
+  routeRules: {
+    '/': {redirect: '/login'},
+  },
   swiper: {
     // modules: ['pagination']
   },
@@ -32,6 +35,16 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.scss'],
   vite: {
+    server: {
+      hmr: {
+        protocol: "ws",
+        clientPort: 24678,
+        port: 24678
+      },
+      watch: {
+        usePolling: true,
+      }
+    },
     css: {
       preprocessorOptions: {
         scss: {
