@@ -1,0 +1,2 @@
+postgres-db/*
+!postgres-db/readme.md
