@@ -118,9 +118,9 @@ export default {
 <template>
     <div class="bg-no-repeat bg-cover w-full h-screen bg-neutral-200">
         <div class="bg-neutral-50 absolute inset-x-0 top-0 h-44">
-            <div class="grid grid-cols-8 gap-1 pt-10">
-                <p class="col-start-2 col-span-8 text-center text-lg font-sans font-bold">統計</p>
-                <div class="col-start-10 col-span-1 justify-self-end pr-3 text-orange-400 font-bold">
+            <div class="grid grid-cols-3 gap-1 pt-10">
+                <p class="col-start-2 col-span-1 text-center text-lg font-sans font-bold">統計</p>
+                <div class="col-start-3 col-span-1 mr-4 justify-self-end text-orange-400 font-bold">
                     今日
                 </div>
             </div>

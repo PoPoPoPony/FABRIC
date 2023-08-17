@@ -2,13 +2,12 @@
       <div
       class="relative"
       v-show="datepicker_show"
-      data-te-input-wrapper-init
       ref="date_picker"
       >
 
       <input
         type="text"
-        class="block w-full rounded border-0 focus:border-black bg-transparent px-3 py-1 data-[te-input-state-active] font-bold" :value="default_date"
+        class="block w-full rounded  bg-transparent px-3 py-1 data-[te-input-state-active] font-bold" :value="default_date"
         style="background-color: #EEEEEF; color: black;" />
     </div>
   </template>
@@ -31,6 +30,8 @@
           disableInput: false
         }, {
           datepickerToggleButton: 'flex items-center justify-content-center [&>svg]:w-5 [&>svg]:h-5 absolute outline-none border-none bg-transparent right-0.5 top-1/2 -translate-x-1/2 -translate-y-1/2 text-black dark:text-black',
+          datepickerCell: 'text-center data-[te-datepicker-cell-disabled]:text-neutral-300 data-[te-datepicker-cell-disabled]:cursor-default data-[te-datepicker-cell-disabled]:pointer-events-none data-[te-datepicker-cell-disabled]:hover:cursor-default hover:cursor-pointer group data-[te-datepicker-cell-focused]:border-black border-black data-[te-datepicker-cell-disabled]:border-black',
+          datepickerDropdownContainer: 'w-[328px] h-[380px] bg-white rounded-lg shadow-[0px_2px_15px_-3px_rgba(0,0,0,.07),_0px_10px_20px_-2px_rgba(0,0,0,.04)] z-[1066] dark:bg-zinc-700'
         }
       );
 
@@ -73,7 +74,3 @@
     },
   }
 </script>
-
-<style scoped>
-
-</style>

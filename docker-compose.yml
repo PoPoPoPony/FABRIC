@@ -60,18 +60,18 @@ services:
     container_name: nuxt-dev
     command: sh -c "npm install && npm run dev"
 
-  nginx:
-    image: nginx:stable-alpine3.17
-    volumes:
-      - ./nginx:/etc/nginx
-      - ./frontend:/frontend
-    ports:
-      - 80:80
-    env_file:
-      - .env
-    environment:
-      - NGINX_HOST=${NGINX_HOST}
-      - NGINX_PORT=80
-    depends_on:
-      - nuxt-dev
-    container_name: nginx
+  # nginx:
+  #   image: nginx:stable-alpine3.17
+  #   volumes:
+  #     - ./nginx:/etc/nginx
+  #     - ./frontend:/frontend
+  #   ports:
+  #     - 80:80
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - NGINX_HOST=${NGINX_HOST}
+  #     - NGINX_PORT=80
+  #   depends_on:
+  #     - nuxt-dev
+  #   container_name: nginx
