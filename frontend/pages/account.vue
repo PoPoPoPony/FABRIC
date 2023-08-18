@@ -23,12 +23,12 @@
         <div class="my-8 mx-4">
             <p class="text-start text-xl font-bold font-sans ">通知</p>
             <div class="rounded-lg bg-neutral-50 w-full divide-y">
-                <account-settings-banner-switch label="裝置" :user_label="true"/>
-                <account-settings-banner-switch label="靈敏度" :user_label="false"/>
+                <account-settings-banner-switch label="更換尿布" :user_label="true"/>
+                <account-settings-banner-switch label="睡覺 " :user_label="false"/>
             </div>
         </div>
         <div class="my-8 mx-4">
-            <button id="logout_btn" class="hover:text-neutral-50 py-2 rounded-lg bg-neutral-50 hover:bg-red-600 w-full px-4 text-red-600 font-bold text-center"> 
+            <button id="logout_btn" class="hover:text-neutral-50 py-2 rounded-lg bg-neutral-50 hover:bg-red-600 w-full px-4 text-red-600 font-bold text-center" @click="logout_click"> 
                 登出
             </button>
         </div>
@@ -47,7 +47,9 @@ export default {
         }
     },
     methods: {
-
+        logout_click() {
+            navigateTo("/login")
+        },
     },
 }
 </script>
