@@ -33,7 +33,7 @@
             </button>
         </div>
         <div class="fixed bottom-0 pt-2 w-full h-12 bg-neutral-50">
-            <footer_banner :page_type="page_type" class=""/>
+            <footer-banner :page_type="page_type" class=""/>
         </div>
     </div>
 </template>

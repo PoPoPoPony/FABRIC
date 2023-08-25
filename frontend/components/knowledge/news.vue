@@ -2,7 +2,7 @@
     <div class="grid grid-cols-5 grid-rows-1 h-32">
         <div class="col-span-3 col-start-1 rol-span-1 grid grid-rows-2 py-2"> <!-- title and content container -->
             <div class="row-start-1 overflow-hidden text-sm font-bold text-black"> {{ news_title }}</div>
-            <div class="row-start-2 overflow-hidden -mt-1 text-xs text-neutral-400"> {{ news_content }}</div>
+            <div class="text-ellipsis overflow-hidden row-start-2 overflow-hidden -mt-1 text-xs text-neutral-400"> {{ news_content }}</div>
         </div>
         <div class="col-span-2 col-start-4 rol-span-1 py-5 px-3">
             <img :src="capoo_slider_1" class="rounded-lg place-self-center"/>

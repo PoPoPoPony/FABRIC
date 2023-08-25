@@ -40,7 +40,8 @@ export default {
             heart_icon: heart_icon,
             poop_icon: poop_icon,
             sleep_icon: sleep_icon,
-            water_icon: water_icon
+            water_icon: water_icon,
+            behavior_type: "紀錄"
         }
     },
     methods: {
@@ -70,7 +71,9 @@ export default {
             <button class="col-start-1 col-span-2 justify-self-start ml-4 text-orange-400 font-bold" @click="cancel_click">
                 取消
             </button>
-            <div class="col-start-3 col-span-4 text-center text-lg font-sans font-bold">新增紀錄</div>
+            <div class="col-start-3 col-span-4 text-center text-lg font-sans font-bold">
+                新增
+            </div>
             <button class="col-start-7 col-span-2 justify-self-end mr-4 text-orange-400 font-bold" @click="confirm_click">
                 完成
             </button>
@@ -82,14 +85,15 @@ export default {
             </div>
         </div>
         <div class=" my-8 mx-4">
-            <div class="rounded-lg bg-neutral-50 w-full">
+            <div class="rounded-lg bg-neutral-50 w-full divide-y">
+                <account-settings-banner-basic label="動作" :user_label="behavior_type" @click="drawer = true"/>
                 <account-settings-banner-basic label="類別" :user_label="record_type" @click="drawer = true"/>
             </div>
         </div>
         <div class=" my-8 mx-4">
             <div class="grid grid-cols-8 gap-1">
                 <button class="col-start-1 col-span-4 justify-self-start text-black text-xl font-bold">
-                    紀錄至
+                    寶貝
                 </button>
                 <button class="col-start-7 col-span-2 justify-self-end mr-1 text-orange-400 font-bold" @click="cbox_select_all">
                     全選

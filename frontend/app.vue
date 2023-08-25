@@ -2,7 +2,7 @@
   <div>
     <!-- <NuxtWelcome /> -->
     <NuxtPage />
-    <VitePwaManifest/>
+    <!-- <VitePwaManifest/> -->
     
   </div>
 </template>
