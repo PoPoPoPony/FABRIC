@@ -10,7 +10,7 @@
 
 
 
-        <el-select :popper-append-to-body="false" class="w-full" v-model="val" multiple filterable allow-create default-first-option :reserve-keyword="false" placeholder="Choose tags for your article" size="large" clearable @change="select_change" >
+        <el-select :popper-append-to-body="false" class="w-full" v-model="val" multiple filterable allow-create default-first-option :reserve-keyword="false" placeholder="Choose your role" size="large" clearable @change="select_change" >
             <el-option v-for="item in options" :disabled="item.disable" v-model="val" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
     </div>
@@ -53,17 +53,17 @@ export default {
             val: 0,
             options: [
                 {
-                    value: '0',
+                    value: 'Mom',
                     label: 'Mom',
                     disable: false
                 },
                 {
-                    value: '1',
+                    value: 'Dad',
                     label: 'Dad',
                     disable: false
                 },
                 {
-                    value: '2',
+                    value: 'Nurse',
                     label: 'Nurse',
                     disable: false
                 },
@@ -72,18 +72,18 @@ export default {
     },
     methods: {
         select_change() {
-            if (Object.values(this.val).includes('0')) {
+            if (Object.values(this.val).includes('Mom')) {
                 this.options[1]['disable'] = true
             } else {
                 this.options[1]['disable'] = false
             }
 
-            if (Object.values(this.val).includes('1')) {
+            if (Object.values(this.val).includes('Dad')) {
                 this.options[0]['disable'] = true
             } else {
                 this.options[0]['disable'] = false
             }
-            this.$emit("role_selected", this.val)
+            this.$emit("select_change", this.val)
         }
     }
 }

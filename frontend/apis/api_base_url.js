@@ -1,0 +1,1 @@
+export let api_base_url="http://localhost:8004/api/v1/"

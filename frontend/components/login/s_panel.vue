@@ -6,19 +6,19 @@
             <!-- </template> -->
         <!-- </el-input> -->
         <div class="mt-12 mx-5">
-            <login-input input_type="text" label="Email"/>
+            <login-input input_type="text" label="Email" @input_change="email_change"/>
         </div>
 
         <div class="mt-3 mx-5">
-            <login-input input_type="password" label="Password"/>
+            <login-input input_type="password" label="Password" @input_change="pwd_change"/>
         </div>
         <div class="mt-3 mx-5">
             <client-only>
-                <login-select/>
+                <login-select @select_change="role_change"/>
             </client-only>
         </div>
         <div class="mt-3 mx-5">
-            <button class="w-full middle none center rounded-lg bg-blue-700 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md border-2 border-blue-700 shadow-blue-700/20 transition-all hover:shadow-lg hover:shadow-blue-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" data-ripple-light="true" @click="create_click">
+            <button class="w-full middle none center rounded-lg bg-blue-700 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md border-2 border-blue-700 shadow-blue-700/20 transition-all hover:shadow-lg hover:shadow-blue-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" data-ripple-light="true" @click="create_click" :disabled="!user_email || !user_pwd || user_roles.length==0">
                 Create!
             </button>
         </div>
@@ -34,6 +34,7 @@
 <script>
 import { ElLoading } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import { create_user } from '@/apis/user'
 
 export default {
     created() {
@@ -43,26 +44,56 @@ export default {
 
     },
     data() {
-        return {}
+        return {
+            user_email: "",
+            user_pwd: "",
+            user_roles: []
+        }
     },
     methods: {
-        create_click() {
+        async create_click() {
             const loading = ElLoading.service({
                 lock: true,
                 text: 'Loading',
                 background: 'rgba(0, 0, 0, 0.7)',
             })
-            setTimeout(() => {
+            let create_user_promise = []
+            for (let role of this.user_roles) {
+                let p = await create_user(
+                    this.user_email,
+                    this.user_pwd,
+                    "Local",  // account_type is set to be local,
+                    role
+                )
+                create_user_promise.push(p)
+            }
+
+            Promise.all(create_user_promise).then(() => {
                 loading.close()
                 ElMessage({
                     message: 'Create account success!',
                     type: 'success',
                 })
                 this.$emit("create_account_success")
-            }, 3000)
+            }).catch(()=>{
+                loading.close()
+                ElMessage({
+                    message: 'Create account failed!',
+                    type: 'error',
+                })
+            })
         }, 
         cancle_click() {
             this.$emit("signup_cancel_click")
+        },
+        email_change(email) {
+            this.user_email = email
+        },
+        pwd_change(pwd) {
+            this.user_pwd = pwd
+        },
+        role_change(roles) {
+            this.user_roles = roles
         }
     }
 }

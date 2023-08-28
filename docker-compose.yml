@@ -20,6 +20,9 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     container_name: fastapi
+    command: [
+      "poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004", "--reload"
+    ]
 
   db:
     image: postgres:15-alpine3.17
@@ -40,25 +43,25 @@ services:
         target: /var/lib/postgresql/data
     container_name: postgres
 
-  nuxt-dev:
-    # build:
-    #   context: ./frontend
-    #   dockerfile: Dockerfile
-    # image: node:20.5.1
-    image: node:16.18.0-alpine
-    working_dir: /frontend
-    volumes:
-      - ./frontend:/frontend
-    expose:
-      - 3000
-      - 24678
-    ports:
-      - 3000:3000
-      - 24678:24678
-    environment:
-      - NUXT_PORT=3000
-    container_name: nuxt-dev
-    command: sh -c "npm install && npm run dev"
+  # nuxt-dev:
+  #   # build:
+  #   #   context: ./frontend
+  #   #   dockerfile: Dockerfile
+  #   # image: node:20.5.1
+  #   image: node:16.18.0-alpine
+  #   working_dir: /frontend
+  #   volumes:
+  #     - ./frontend:/frontend
+  #   expose:
+  #     - 3000
+  #     - 24678
+  #   ports:
+  #     - 3000:3000
+  #     - 24678:24678
+  #   environment:
+  #     - NUXT_PORT=3000
+  #   container_name: nuxt-dev
+  #   command: sh -c "npm install && npm run dev"
 
   # nginx:
   #   image: nginx:stable-alpine3.17

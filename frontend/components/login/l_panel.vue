@@ -7,14 +7,14 @@
         <!-- </el-input> -->
         <div class="mt-12 mx-5">
             <!-- <login-account-input/> -->
-            <login-input input_type="text" label="Email"/>
+            <login-input input_type="text" label="Email" @input_change="email_change" ref="email_input"/>
         </div>
 
         <div class="mt-3 mx-5">
-            <login-input input_type="password" label="Password"/>
+            <login-input input_type="password" label="Password" @input_change="pwd_change" ref="pwd_input"/>
         </div>
         <div class="mt-5 mx-5">
-            <button class="w-full middle none center rounded-lg bg-blue-700 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md border-2 border-blue-700 shadow-blue-700/20 transition-all hover:shadow-lg hover:shadow-blue-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" data-ripple-light="true" @click="login_click">
+            <button class="w-full middle none center rounded-lg bg-blue-700 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md border-2 border-blue-700 shadow-blue-700/20 transition-all hover:shadow-lg hover:shadow-blue-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" data-ripple-light="true" @click="login_click" :disabled="!user_email || !user_pwd" >
                 Login
             </button>
         </div>
@@ -31,7 +31,9 @@
 
 
 <script>
-
+import { ElMessage } from 'element-plus'
+import { ElLoading } from 'element-plus'
+import { user_login } from '@/apis/user'
 
 export default {
     created() {
@@ -41,15 +43,49 @@ export default {
 
     },
     data() {
-        return {}
+        return {
+            user_email: "",
+            user_pwd: "",
+        }
     },
     methods: {
-        login_click() {
-            navigateTo("/babyinfo")
+        async login_click() {
+            const loading = ElLoading.service({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)',
+            })
+
+            let retv = await user_login(this.user_email, this.user_pwd)
+
+            loading.close()
+
+            if (retv['status_code'] == 200) {
+                ElMessage({
+                    message: 'Login success!',
+                    type: 'success',
+                })
+                navigateTo("/babyinfo")
+            } else if (retv['status_code'] == 403) {
+                ElMessage({
+                    message: retv['message'],
+                    type: 'error',
+                })
+                this.$refs.email_input.input_invalid_styling()
+                this.$refs.pwd_input.input_invalid_styling()
+            } else {
+                console.log(retv['status_code'])
+            }
         },
         signup_click() {
             this.$emit("signup_click")
-        }
+        },
+        email_change(email) {
+            this.user_email = email
+        },
+        pwd_change(pwd) {
+            this.user_pwd = pwd
+        },
     }
 }
 

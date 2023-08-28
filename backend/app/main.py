@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
-import os
+from fastapi.middleware import Middleware
+from fastapi.middleware.cors import CORSMiddleware
+from app.routers import user
 
+import os
 
 app = FastAPI()
 
@@ -19,3 +22,29 @@ def ssl(ssl_file_name: str):
     print(ssl_file_name)
 
     return FileResponse(path=ssl_file_path, filename=ssl_file_name, media_type="text")
+
+
+
+
+app = FastAPI()
+
+
+# CORS
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# app.include_router()
+app.include_router(user.router)
+
+
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World!"}

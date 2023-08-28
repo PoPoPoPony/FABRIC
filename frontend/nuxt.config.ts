@@ -33,7 +33,7 @@ export default defineNuxtConfig({
       ],
     }
   },
-  css: ['~/assets/css/main.scss'],
+  css: ['~/assets/css/main.scss', 'animate.css/animate.min.css'],
   vite: {
     // server: {
     //   hmr: {
