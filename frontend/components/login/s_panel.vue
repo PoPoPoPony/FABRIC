@@ -52,36 +52,34 @@ export default {
     },
     methods: {
         async create_click() {
-            const loading = ElLoading.service({
-                lock: true,
-                text: 'Loading',
-                background: 'rgba(0, 0, 0, 0.7)',
-            })
-            let create_user_promise = []
-            for (let role of this.user_roles) {
-                let p = await create_user(
-                    this.user_email,
-                    this.user_pwd,
-                    "Local",  // account_type is set to be local,
-                    role
-                )
-                create_user_promise.push(p)
-            }
+            // const loading = ElLoading.service({
+            //     lock: true,
+            //     text: 'Loading',
+            //     background: 'rgba(0, 0, 0, 0.7)',
+            // })
+            let p = await create_user(
+                this.user_email,
+                this.user_pwd,
+                "Local",  // account_type is set to be local,
+                this.user_roles
+            )
 
-            Promise.all(create_user_promise).then(() => {
-                loading.close()
-                ElMessage({
-                    message: 'Create account success!',
-                    type: 'success',
-                })
-                this.$emit("create_account_success")
-            }).catch(()=>{
-                loading.close()
-                ElMessage({
-                    message: 'Create account failed!',
-                    type: 'error',
-                })
-            })
+
+
+            // Promise.all(create_user_promise).then(() => {
+            //     loading.close()
+            //     ElMessage({
+            //         message: 'Create account success!',
+            //         type: 'success',
+            //     })
+            //     this.$emit("create_account_success")
+            // }).catch(()=>{
+            //     loading.close()
+            //     ElMessage({
+            //         message: 'Create account failed!',
+            //         type: 'error',
+            //     })
+            // })
         }, 
         cancle_click() {
             this.$emit("signup_cancel_click")

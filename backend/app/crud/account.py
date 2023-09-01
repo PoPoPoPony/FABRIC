@@ -8,6 +8,7 @@ def create_account(db:Session, user_id, frontend_hashed_pwd):
     backend_hashed_pwd, salt = encrypt(frontend_hashed_pwd)
     backend_hashed_pwd = backend_hashed_pwd.split("$")[-1] # 只取密碼部分
 
+
     new_pwd = DB_AccountInfo(
         user_id=user_id,
         user_hashed_pwd=backend_hashed_pwd,

@@ -24,17 +24,26 @@ class AccountInfo(Base):
         self.user_hashed_pwd = user_hashed_pwd
         self.salt = salt
 
+
+
+
 class UserInfo(Base):
     __tablename__="user_info"
     user_id = Column(UUID(as_uuid=True), primary_key=True, unique=True, nullable=False)
     user_email = Column(EmailType, nullable=False)
     account_type = Column(Enum(AccountType), nullable=False, default=AccountType.Local)
-    user_role = Column(Enum(UserRole), nullable=False)
 
-    def __init__(self, user_id, user_email, account_type, user_role):
+    def __init__(self, user_id, user_email, account_type):
         self.user_id = user_id
         self.user_email = user_email
         self.account_type = account_type
+
+
+class Role(Base):
+    __tablename__="role"
+    user_id = Column(UUID(as_uuid=True), ForeignKey("user_info.user_id", ondelete="CASCADE"), primary_key=True, nullable=False)
+    user_role = Column(Enum(UserRole), primary_key=True, nullable=False)
+
+    def __init__(self, user_id, user_role):
+        self.user_id = user_id
         self.user_role = user_role
-
-

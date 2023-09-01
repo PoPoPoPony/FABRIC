@@ -2,7 +2,7 @@ import sha512 from 'js-sha512';
 import { v4 as uuidv4 } from 'uuid';
 import { api_base_url } from '../apis/api_base_url'
 
-export const create_user = (user_email, pwd, account_type, user_role) => {
+export const create_user = (user_email, pwd, account_type, user_roles) => {
     return new Promise((resolve, reject) => {
         const {data:retv} = useFetch(api_base_url+"user/create", {
             method: 'post',
@@ -11,7 +11,7 @@ export const create_user = (user_email, pwd, account_type, user_role) => {
                 user_email: user_email,
                 frontend_hashed_pwd: sha512(pwd),
                 account_type: account_type,
-                user_role: user_role
+                user_roles: user_roles
             }
         })
         if (retv) {
@@ -25,24 +25,6 @@ export const create_user = (user_email, pwd, account_type, user_role) => {
 
 
 export const user_login = async (user_email, pwd) => {
-    // return new Promise((resolve, reject) => {
-    //     const retv = useFetch(api_base_url+"user/login", {
-    //         method: 'get',
-    //         query: {
-    //             user_email: user_email,
-    //             frontend_hashed_pwd: sha512(pwd),
-    //         }
-    //     })
-
-    //     if (retv.data.value) {
-    //         resolve()
-    //     } else {
-    //         let message = retv.error.value['data']['detail']
-    //         reject()
-    //     }
-    // })
-
-
     let status_code = ''
     let message = ''
     let data = ''

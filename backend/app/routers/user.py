@@ -1,10 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from app.db.database import get_db
 from app.db.models import UserInfo as DBUserInfo
-from app.schemas.user import UserInfo
-from app.utils.account import generate_random_string, verify_account
+from app.schemas.user import UserData
 from app.crud import user as crud_user
 from app.crud import account as crud_account
+from app.crud import role as crud_role
+from app.utils import user as utils_user
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
@@ -18,29 +19,24 @@ router = APIRouter(
 
 
 @router.post("/create")
-def create_user(user:UserInfo, db: Session=Depends(get_db)):
-    result = crud_user.create_user(user, db=db)
-    if result:
-        return True
-    else:
+def create_user(user:UserData, db: Session=Depends(get_db)):
+    try:
+        crud_user.create_user(user, db=db)
+        crud_account.create_account(db, user.user_id, user.frontend_hashed_pwd)
+        for user_role in user.user_roles:
+            crud_role.create_role(user_id=user.user_id, role=user_role, db=db)
+
+    except Exception as e:
+        db.rollback()
         raise HTTPException(status_code=403, detail="Create User Failed!")
+
 
 
 @router.get("/login")
 def user_login(user_email: str, frontend_hashed_pwd: str, db: Session=Depends(get_db)):
-    # 一個email會有兩個user_id(role)
-    DB_users = crud_user.get_user(user_email, db)
+    user = utils_user.authenticate_user(db, user_email, frontend_hashed_pwd)
 
-    if len(DB_users) == 0:
-        raise HTTPException(status_code=403, detail="User not exist!")
-
-    verify_list = []
-    for DB_user in DB_users:
-        DB_account = crud_account.get_account(DB_user.user_id, db)
-        verify_list.append(verify_account(DB_account.user_hashed_pwd, frontend_hashed_pwd, DB_account.salt))
-    
-    if verify_list.count(True) == len(verify_list):
-        return True
-    else:
+    if not user:
         raise HTTPException(status_code=403, detail="User login Failed!")
-
+    else:
+        return user_email
