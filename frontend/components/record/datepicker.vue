@@ -37,7 +37,7 @@
 
       this.$refs.date_picker.addEventListener(
         "dateChange.te.datepicker", 
-        (event) => this.get_date_str(event)
+        (event) => this.date_picker_change(event)
       );
 
       this.datepicker_show = true
@@ -49,6 +49,13 @@
       }
     },
     methods: {
+      date_picker_change(event) {
+        let date_str = this.get_date_str(event)
+        this.$emit("date_picker_change", date_str)
+      },
+
+
+
       get_date_str(event) {
         let year = event.date.getFullYear() // 西元年
         let month = event.date.getMonth()+1 // 月的indx (+1後才是真正的月份)
@@ -69,7 +76,7 @@
 
         let date_str = String(year)+'/'+month+'/'+date
         this.date = date_str
-        console.log(this.date)
+        return date_str
       }
     },
   }

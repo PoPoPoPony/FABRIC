@@ -3,6 +3,7 @@ from .database import Base
 from .enum_class import AccountType, UserRole, SexType
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, Float, Enum, DateTime
+from sqlalchemy.dialects.postgresql import BYTEA
 from sqlalchemy_utils import EmailType
 from sqlalchemy.orm import relationship
 from passlib.hash import sha512_crypt
@@ -57,7 +58,7 @@ class BabyInfo(Base):
     __tablename__="baby_info"
     baby_id = Column(UUID(as_uuid=True), primary_key=True, unique=True, nullable=False)
     baby_name = Column(String, nullable=False)
-    baby_avatar = Column(String, nullable=False)
+    baby_avatar = Column(BYTEA, nullable=False)
     baby_birth = Column(DateTime, nullable=False)
     baby_sex = Column(Enum(SexType), nullable=False)
 
