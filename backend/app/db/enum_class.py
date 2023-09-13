@@ -10,4 +10,8 @@ class AccountType(Enum):
 class UserRole(Enum):
     Mom = "mom"
     Dad = "dad"
-    Nurse = "nurse"
+    # Nurse = "nurse"
+
+class SexType(Enum):
+    Male = "male"
+    Female = "female"

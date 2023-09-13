@@ -13,19 +13,31 @@ import heart_icon from '~/assets/babyinfo/heart@3x.png'
 import poop_icon from '~/assets/babyinfo/poop@3x.png'
 import sleep_icon from '~/assets/babyinfo/sleep@3x.png'
 import water_icon from '~/assets/babyinfo/water@3x.png'
-
-
+import { get_role } from '@/apis/user'
+import { useUserStore } from '@/stores/user'
 
 
 export default {
     props: [],
     created () {
-
+        
 
         
     },
     mounted() {
+        // const cookie_access_token = useCookie("access_token", {
+        //     httpOnly: true,
+        // })
 
+        // console.log(cookie_access_token)
+
+        // console.log(retv)
+
+
+
+
+    },
+    computed() {
     },
     data() {
         return { 
@@ -59,6 +71,11 @@ export default {
                 this.baby_idx_keys[idx]+=1
             }
         },
+        temp () {
+            // let t = getCookie("access_token")
+            // console.log(t)
+            get_role()
+        },
     }
 }
 
@@ -68,6 +85,7 @@ export default {
 
 <template>
     <div class="relative bg-no-repeat bg-cover w-full h-screen bg-neutral-200">
+        <!-- <button @click="temp">TEST</button> -->
         <div class="grid grid-cols-3 gap-1 pt-10">
             <p class="col-start-2 col-span-1 text-center text-lg font-sans font-bold">寶貝動態</p>
             <div class="col-start-3 col-span-1 justify-self-end mr-4">

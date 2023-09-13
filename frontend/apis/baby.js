@@ -1,12 +1,11 @@
-import sha512 from 'js-sha512';
 import { v4 as uuidv4 } from 'uuid';
 import { api_base_url } from '../apis/api_base_url'
 // import { useUserStore } from '@/stores/user'
 
 
-export const create_user = (user_email, pwd, account_type, user_roles) => {
+export const create_baby = (user_email, pwd, account_type, user_roles) => {
     return new Promise((resolve, reject) => {
-        const {data:retv} = useFetch(api_base_url+"/user/create", {
+        const { data: retv } = useFetch(api_base_url + "/user/create", {
             method: 'post',
             body: {
                 user_id: uuidv4(),
@@ -22,7 +21,7 @@ export const create_user = (user_email, pwd, account_type, user_roles) => {
             reject()
         }
     })
-    
+
 }
 
 
@@ -36,10 +35,10 @@ export const create_user = (user_email, pwd, account_type, user_roles) => {
 //             options.baseURL = api_base_url
 //             options.method = 'get',
 //             options.retry = 3
-            // options.query = {
-            //     user_email: user_email,
-            //     frontend_hashed_pwd: sha512(pwd)
-            // }
+// options.query = {
+//     user_email: user_email,
+//     frontend_hashed_pwd: sha512(pwd)
+// }
 //         },
 //         onRequestError({request, options, error}) {
 //             // Handle the request errors
@@ -49,7 +48,7 @@ export const create_user = (user_email, pwd, account_type, user_roles) => {
 //             status_code = response.status
 //             message = 'success'
 //             data = response._data
-            
+
 //         },
 //         onResponseError({ request, response, options }) {
 //             // Handle the response errors
@@ -111,10 +110,10 @@ export const user_login = async (user_email, pwd) => {
         'message': message,
         'data': data
     }
-    
-    
 
-    
+
+
+
 }
 
 

@@ -19,6 +19,8 @@ class UserInfo(BaseModel):
     class Config:
         from_attributes=True
 
+
+
 class UserData(BaseModel):
     user_id: UUID = Field(default_factory=uuid4)
     user_email: EmailStr

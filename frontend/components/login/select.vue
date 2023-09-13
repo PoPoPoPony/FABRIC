@@ -8,8 +8,6 @@
         </select> -->
         <!-- <label data-te-select-label-ref>Role</label> -->
 
-
-
         <el-select :popper-append-to-body="false" class="w-full" v-model="val" multiple filterable allow-create default-first-option :reserve-keyword="false" placeholder="Choose your role" size="large" clearable @change="select_change" >
             <el-option v-for="item in options" :disabled="item.disable" v-model="val" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
@@ -62,11 +60,12 @@ export default {
                     label: 'Dad',
                     disable: false
                 },
-                {
-                    value: 'Nurse',
-                    label: 'Nurse',
-                    disable: false
-                },
+                // [09/11] 暫時移除nurse
+                // {
+                //     value: 'Nurse',
+                //     label: 'Nurse',
+                //     disable: false
+                // },
             ]
         }
     },

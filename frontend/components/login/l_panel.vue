@@ -34,6 +34,8 @@
 import { ElMessage } from 'element-plus'
 import { ElLoading } from 'element-plus'
 import { user_login } from '@/apis/user'
+import { useUserStore } from '@/stores/user'
+
 
 export default {
     created() {
@@ -57,7 +59,6 @@ export default {
             })
 
             let retv = await user_login(this.user_email, this.user_pwd)
-
             loading.close()
 
             if (retv['status_code'] == 200) {
@@ -65,7 +66,27 @@ export default {
                     message: 'Login success!',
                     type: 'success',
                 })
+
+                // store access token in the cookie
+                const cookie_access_token = useCookie("access_token", {
+                    httpOnly: false,
+                })
+                cookie_access_token.value = retv['data']['access_token']
+
+                const userStore = useUserStore()
+                // console.log(this.user_email)
+                userStore.set_user_email(this.user_email)
+                // console.log(userStore.user_email)
+
                 navigateTo("/babyinfo")
+
+                // navigateTo("/babyinfo")
+                
+                // pinia example
+                // const authStore = useAuthStore()
+
+                // console.log(authStore.access_token)
+                // console.log(authStore.token_type)
             } else if (retv['status_code'] == 403) {
                 ElMessage({
                     message: retv['message'],

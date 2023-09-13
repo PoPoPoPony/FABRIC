@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     '@element-plus/nuxt',
     'nuxt-swiper',
+    '@pinia/nuxt',
   ],
   routeRules: {
     '/index': {redirect: '/welcome'},
@@ -53,6 +54,12 @@ export default defineNuxtConfig({
       }
     }
   },
+  // pinia: {
+  //   autoImports: [
+  //     // automatically imports `defineStore`
+  //     'defineStore', // import { defineStore } from 'pinia'
+  //   ],
+  // },
   postcss: {
     plugins: {
       tailwindcss: {},

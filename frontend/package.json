@@ -25,10 +25,15 @@
     "vite-plugin-pwa": "^0.16.4"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.11",
     "animate.css": "^4.1.1",
     "js-sha512": "^0.8.0",
     "nuxt-swiper": "^1.2.0",
+    "pinia": "^2.1.6",
     "tw-elements": "^1.0.0-beta3",
     "uuid": "^9.0.0"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }

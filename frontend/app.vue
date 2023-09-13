@@ -7,6 +7,7 @@
   </div>
 </template>
 
+
 <style>
 .blur-enter-active,
 .blur-leave-active {

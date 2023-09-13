@@ -7,7 +7,7 @@
         <div class=" my-8 mx-4">
             <p class="text-start text-xl font-bold font-sans ">用戶</p>
             <div class="rounded-lg bg-neutral-50 w-full divide-y">
-                <account-settings-banner-basic label="Email" user_label="test@gmail.com"/>
+                <account-settings-banner-basic label="Email" :user_label="user_email"/>
                 <account-settings-banner-basic label="更改密碼" />
             </div>
         </div>
@@ -40,12 +40,24 @@
 
 
 <script>
+import { useUserStore } from '@/stores/user'
+
 export default {
+    created() {
+        const userStore = useUserStore()
+        this.user_email = userStore.user_email
+    },
     data () {
         return {
-            page_type: "account"
+            page_type: "account",
+            user_email: '',
         }
     },
+
+    computed () {
+        
+    },
+
     methods: {
         logout_click() {
             navigateTo("/login")
