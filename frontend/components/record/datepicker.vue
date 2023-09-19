@@ -74,7 +74,7 @@
           date = String(date)
         }
 
-        let date_str = String(year)+'/'+month+'/'+date
+        let date_str = String(year)+'-'+month+'-'+date
         this.date = date_str
         return date_str
       }

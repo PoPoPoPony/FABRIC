@@ -2,9 +2,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { api_base_url } from '../apis/api_base_url'
 // import { useUserStore } from '@/stores/user'
 
+// 這些暫時都還沒用到
 
-
-export const upload_baby_avatar = async (user_email, pwd) => {
+export const APIUploadBabyAvatar = async (user_email, pwd) => {
     let status_code = ''
     let message = ''
     let data = ''

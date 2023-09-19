@@ -6,9 +6,8 @@ import { Download } from '@element-plus/icons-vue'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { api_base_url } from '@/apis/api_base_url'
-// import structuredClone from '@ungap/structured-clone';
+import structuredClone from '@ungap/structured-clone';
 import { v4 as uuidv4 } from 'uuid';
-import { useUserStore } from "@/stores/user"
 // import { ElLoading } from 'element-plus'
 
 export default {
@@ -43,6 +42,7 @@ export default {
             disabled: false,
             hideUpload: false,
             files: [],
+            // 不確定怎麼建element ui裡面的file type所以沒修改的話就不重新傳圖片到後端
             baby_avatar_reupload: false,
             backend_info: {
                 'url': api_base_url+'/baby/create',
@@ -104,15 +104,26 @@ export default {
     },
     methods: {
         on_error(file, files) {
-            ElMessage({
-                message: "Error!",
-                type: 'error',
-            })
+            this.handleChange(this.baby_avatar_backup, -1)
             this.upload_key+=1
+            console.log(2, this.files[0].url)
+            console.log(2, this.baby_avatar_backup.url)
         },
 
+
+        before_upload(file) {
+            // console.log(1, file)
+            // console.log(2, this.files)
+            // Object.assign(this.baby_avatar_backup, ...this.files[0])
+            // // 僅修改url (file同this.files['raw'])
+            // console.log(3, file)
+            // // this.baby_avatar_backup['url'] = URL.createObjectURL(this.files[0]['raw'])
+            // console.log(4, this.files[0].url)
+            // console.log(5, this.baby_avatar_backup.url)
+        },
         handleRemove(file) {
-            this.$refs.upload.handleRemove(file)
+            console.log(8888)
+            // this.$refs.upload.handleRemove(file)
             this.files = []
             this.hideUpload = this.files.length >= 1 // 根據現在的數量決定要不要顯示可上傳的介面
         },
@@ -138,6 +149,7 @@ export default {
             
 
             this.hideUpload = this.files.length >= 1
+            console.log("exec", this.files)
         },
         date_picker_change(date_str) {
             this.baby_birth = date_str
@@ -220,26 +232,38 @@ export default {
 
             // submit the baby avatar
 
-            const userStore = useUserStore()
+            // this.baby_data = {
+            //     'baby_id': uuidv4(),
+            //     'baby_name': this.baby_name,
+            //     'baby_birth': this.baby_birth,
+            //     'baby_sex': this.baby_sex,
+            //     'baby_diseases': this.baby_diseases
+            // }
 
-            this.baby_data = {
-                'baby_id': uuidv4(),
-                'baby_name': this.baby_name,
-                'baby_birth': this.baby_birth,
-                'baby_sex': this.baby_sex,
-                'baby_diseases': this.baby_diseases,
-                'user_role': userStore.user_role
-            }
+            console.log(this.files[0])
 
-            await this.$refs.upload.submit()
+            this.baby_avatar_backup = JSON.parse(JSON.stringify(this.files[0]))
+            // 僅修改url (file同this.files['raw'])
+
+            this.baby_avatar_backup['uid']+=1
+            this.baby_avatar_backup['percentage']=100
+
+            // 
+            let new_file = new File([this.files[0]['raw']], this.files[0]['raw']['name'])
+            this.baby_avatar_backup['raw'] = new_file
+            this.baby_avatar_backup['raw']['uid'] = this.baby_avatar_backup['uid']
+            this.baby_avatar_backup['url'] = URL.createObjectURL(new_file)
+
+            console.log(1, this.files[0])
+            console.log(1, this.baby_avatar_backup)
+
+
+            // await this.$refs.upload.submit()
+            // if (this.files[0]['status'] != 'ready') {
+            //     this.files[0]['status'] = 'ready'
+            // }
+
             this.upload_key+=1
-        },
-
-        before_baby_avatar_upload (file) {
-            if (file.type !== 'image/jpeg' || file.type !== 'image/jpg' || file.type !== 'image/png') {
-                ElMessage.error('Avatar picture must be JPG/JPEG/PNG format!')
-                return false
-            }
         },
         send_backend() {
 
@@ -274,7 +298,7 @@ export default {
 
         </div>
         <div class="grid h-80 pt-8 w-full place-items-center">
-            <el-upload :key="upload_key" accept="image/*" :before-upload="before_baby_avatar_upload" :on-error="on_error" class="place-items-center" ref="upload" :file-list="files" :class="{hide:hideUpload}" :action="backend_info['url']" :on-change="handleChange" list-type="picture-card" :limit="1" :auto-upload="false" :headers="backend_info['header']" :data="baby_data" name="baby_avatar">
+            <el-upload :key="upload_key" :on-error="on_error" :before-upload="before_upload" class="place-items-center" ref="upload" :file-list="files" :class="{hide:hideUpload}" :action="backend_info['url']" :on-change="handleChange" list-type="picture-card" :limit="1" :auto-upload="false" :headers="backend_info['header']" :data="baby_data" name="baby_avatar">
                 <el-icon size='20' style='font-weight:bold;' >
                     <Plus/>
                 </el-icon>

@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     'nuxt-swiper',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
   routeRules: {
     '/index': {redirect: '/welcome'},
