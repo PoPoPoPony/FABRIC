@@ -13,7 +13,7 @@ import heart_icon from '~/assets/babyinfo/heart@3x.png'
 import poop_icon from '~/assets/babyinfo/poop@3x.png'
 import sleep_icon from '~/assets/babyinfo/sleep@3x.png'
 import water_icon from '~/assets/babyinfo/water@3x.png'
-import { get_role } from '@/apis/user'
+// import { get_role } from '@/apis/user'
 import { useUserStore } from '@/stores/user'
 
 

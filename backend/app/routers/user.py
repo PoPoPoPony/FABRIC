@@ -38,7 +38,7 @@ def create_user(user:UserData, db: Session=Depends(get_db)):
 
 
 @router.get("/role")
-def get_user_role(test: str, current_user: UserInfo = Depends(utils_auth.get_current_user)):
+def get_user_role(current_user: UserInfo = Depends(utils_auth.get_current_user)):
     db = next(get_db())
     roles = db.query(DBRole).filter(DBRole.user_id == current_user.user_id).all()
 

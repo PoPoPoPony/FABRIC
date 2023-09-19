@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from app.schemas.user import UserInfo
 from app.utils.auth import get_current_user
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import user
+from app.routers import user, baby
 
 
 # auth 的所有需要的組件都先寫在utils.auth中，所以router也在裡面
@@ -42,6 +42,7 @@ app.add_middleware(
 # app.include_router()
 app.include_router(user.router)
 app.include_router(auth.router)
+app.include_router(baby.router)
 
 
 

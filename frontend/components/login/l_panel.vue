@@ -33,7 +33,7 @@
 <script>
 import { ElMessage } from 'element-plus'
 import { ElLoading } from 'element-plus'
-import { user_login } from '@/apis/user'
+import { APIUserLogin, APIGetUserRole } from '@/apis/user'
 import { useUserStore } from '@/stores/user'
 
 
@@ -58,8 +58,8 @@ export default {
                 background: 'rgba(0, 0, 0, 0.7)',
             })
 
-            let retv = await user_login(this.user_email, this.user_pwd)
-            loading.close()
+            let retv = await APIUserLogin(this.user_email, this.user_pwd)
+            
 
             if (retv['status_code'] == 200) {
                 ElMessage({
@@ -76,9 +76,25 @@ export default {
                 const userStore = useUserStore()
                 // console.log(this.user_email)
                 userStore.set_user_email(this.user_email)
+                
+                // 存cookie可能比較慢，這邊先直接傳access_token進去
+                let retv_role = await APIGetUserRole(retv['data']['access_token'])
+                
+                if (retv_role['status_code'] == 200) {
+                    userStore.set_user_role(retv_role['data'][0]['user_role'])
+                    navigateTo("/babyinfo")
+                } else {
+                    ElMessage({
+                        message: `Role Error! \n ${retv['message']}`,
+                        type: 'error',
+                    })
+                }
+
+
+                
                 // console.log(userStore.user_email)
 
-                navigateTo("/babyinfo")
+                
 
                 // navigateTo("/babyinfo")
                 
@@ -97,6 +113,7 @@ export default {
             } else {
                 console.log(retv['status_code'])
             }
+            loading.close()
         },
         signup_click() {
             this.$emit("signup_click")

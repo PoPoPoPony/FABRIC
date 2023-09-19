@@ -1,1 +1,3 @@
 postgres-db/*
+app/public/avatar/*.png
+app/public/avatar/*.jpg

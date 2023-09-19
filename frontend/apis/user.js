@@ -4,7 +4,7 @@ import { api_base_url } from '../apis/api_base_url'
 // import { useUserStore } from '@/stores/user'
 
 
-export const create_user = (user_email, pwd, account_type, user_roles) => {
+export const APICreateUser = (user_email, pwd, account_type, user_roles) => {
     return new Promise((resolve, reject) => {
         const {data:retv} = useFetch(api_base_url+"/user/create", {
             method: 'post',
@@ -67,7 +67,7 @@ export const create_user = (user_email, pwd, account_type, user_roles) => {
 
 
 
-export const user_login = async (user_email, pwd) => {
+export const APIUserLogin = async (user_email, pwd) => {
     let status_code = ''
     let message = ''
     let data = ''
@@ -118,14 +118,17 @@ export const user_login = async (user_email, pwd) => {
 }
 
 
-export const get_role = async () => {
+export const APIGetUserRole = async (access_token) => {
+    let status_code = ''
+    let message = ''
+    let data = ''
     const retv = await useFetch("/user/role", {
         onRequest({ request, options }) {
             options.baseURL = api_base_url
             options.method = 'get'
             options.retry = 3
             options.headers = {
-                'Authorization': `Bearer ${useCookie("access_token").value}`
+                'Authorization': `Bearer ${access_token}`
             }
         },
         onRequestError({ request, options, error }) {
@@ -134,16 +137,23 @@ export const get_role = async () => {
         onResponse({ request, response, options }) {
             // Process the response data
 
-            console.log(response)
+            status_code = response.status
+            message = 'success'
+            data = response._data
             // authStore.set_access_token(data['access_token'])
             // authStore.set_token_type(data['token_type'])
 
         },
         onResponseError({ request, response, options }) {
             // Handle the response errors
-            console.log(response)
-
+            status_code = response.status
+            message = response._data['detail']
+            data = null
         }
     })
-
+    return {
+        'status_code': status_code,
+        'message': message,
+        'data': data
+    }
 }

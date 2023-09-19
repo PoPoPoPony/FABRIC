@@ -10,13 +10,14 @@ class SexType(str, Enum):
     Female = "Female"
 
 
+# file -> baby_avatar: str(暫時不確定怎麼修改element-ui上的設定)
+# class BabyInfo(BaseModel):
+#     baby_id: UUID = Field(default_factory=uuid4)
+#     baby_name: str
+#     file: bytes
+#     baby_birth: datetime
+#     baby_sex: SexType
+#     baby_diseases: list[str] | str
 
-class BabyInfo(BaseModel):
-    baby_id: UUID = Field(default_factory=uuid4)
-    baby_name: str
-    baby_avatar: str
-    baby_birth: datetime
-    baby_sex: SexType
-
-    class Config:
-        from_attributes=True
+#     class Config:
+#         from_attributes=True

@@ -34,7 +34,7 @@
 <script>
 import { ElLoading } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { create_user } from '@/apis/user'
+import { APICreateUser } from '@/apis/user'
 
 export default {
     created() {
@@ -57,7 +57,7 @@ export default {
             //     text: 'Loading',
             //     background: 'rgba(0, 0, 0, 0.7)',
             // })
-            let p = await create_user(
+            let p = await APICreateUser(
                 this.user_email,
                 this.user_pwd,
                 "Local",  // account_type is set to be local,
