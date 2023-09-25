@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, Depends, Header
+from fastapi import APIRouter, HTTPException, Depends, Header, Query
 from typing import Annotated
 from app.db.database import get_db
 from app.db.models import UserInfo as DBUserInfo
+from app.db.models import Interaction as DBInteraction
 from app.db.models import Role as DBRole
-from app.schemas.user import UserData, UserInfo
+from app.schemas.user import UserData, UserInfo, UserRoleEnum
 from app.crud import user as crud_user
 from app.crud import account as crud_account
 from app.crud import role as crud_role
@@ -43,6 +44,14 @@ def get_user_role(current_user: UserInfo = Depends(utils_auth.get_current_user))
     roles = db.query(DBRole).filter(DBRole.user_id == current_user.user_id).all()
 
     return roles
+
+@router.get("/babys")
+def get_user_babys(user_role: Annotated[UserRoleEnum, Query()], current_user: UserInfo = Depends(utils_auth.get_current_user)):
+    db = next(get_db())
+    baby_infos = crud_user.get_user_babys(current_user.user_id, user_role, db)
+
+    return baby_infos
+
 
 
 

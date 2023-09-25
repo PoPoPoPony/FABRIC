@@ -1,7 +1,7 @@
 import sha512 from 'js-sha512';
 import { v4 as uuidv4 } from 'uuid';
 import { api_base_url } from '../apis/api_base_url'
-// import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user';
 
 
 export const APICreateUser = (user_email, pwd, account_type, user_roles) => {
@@ -129,6 +129,51 @@ export const APIGetUserRole = async (access_token) => {
             options.retry = 3
             options.headers = {
                 'Authorization': `Bearer ${access_token}`
+            }
+        },
+        onRequestError({ request, options, error }) {
+            // Handle the request errors
+        },
+        onResponse({ request, response, options }) {
+            // Process the response data
+
+            status_code = response.status
+            message = 'success'
+            data = response._data
+            // authStore.set_access_token(data['access_token'])
+            // authStore.set_token_type(data['token_type'])
+
+        },
+        onResponseError({ request, response, options }) {
+            // Handle the response errors
+            status_code = response.status
+            message = response._data['detail']
+            data = null
+        }
+    })
+    return {
+        'status_code': status_code,
+        'message': message,
+        'data': data
+    }
+}
+
+// Basic -> 只拿id, name, avatar
+export const APIGetUserBabys = async () => {
+    let status_code = ''
+    let message = ''
+    let data = ''
+    const userStore = useUserStore()
+    const retv = await useFetch("/user/babys", {
+        onRequest({ request, options }) {
+            options.baseURL = api_base_url
+            options.method = 'get'
+            options.retry = 3
+            options.headers = {
+                'Authorization': `Bearer ${useCookie("access_token").value}`
+            },
+            options.query = {
+                user_role: userStore.user_role
             }
         },
         onRequestError({ request, options, error }) {

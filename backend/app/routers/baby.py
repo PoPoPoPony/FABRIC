@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException, Depends, Form, File, UploadFile
-from typing import Annotated, Union
+from fastapi import APIRouter, HTTPException, Depends, Form, File, UploadFile, Query, status
+from fastapi.responses import FileResponse
+from typing import Annotated, Union, Optional
 from app.db.database import get_db
 from app.db.models import Role as DBRole
 from app.schemas.user import UserData, UserInfo
@@ -16,6 +17,7 @@ from app.utils import auth as utils_auth
 from sqlalchemy.orm import Session
 from uuid import UUID
 from datetime import date
+import os
 
 
 router = APIRouter(
@@ -33,7 +35,7 @@ def create_baby(
         baby_avatar: Annotated[UploadFile, Form()],
         baby_birth: Annotated[date, Form()],
         baby_sex: Annotated[SexType, Form()],
-        baby_diseases: Annotated[Union[str, list[str]], Form()],
+        baby_diseases: Annotated[str, Form()],
         user_role: Annotated[UserRoleEnum, Form()],
         current_user: UserInfo = Depends(utils_auth.get_current_user)
     ):
@@ -46,6 +48,7 @@ def create_baby(
     # print(baby_sex)
     # print(baby_diseases)
     db = next(get_db())
+    baby_diseases = baby_diseases.split(',')
     crud_baby.create_baby(
         baby_id,
         baby_name,
@@ -65,9 +68,28 @@ def create_baby(
     crud_interaction.create_interaction(interaction, db)
 
 
-# @router.get("/role")
-# def get_user_role(test: str, current_user: UserInfo = Depends(utils_auth.get_current_user)):
-#     db = next(get_db())
-#     roles = db.query(DBRole).filter(DBRole.user_id == current_user.user_id).all()
+# @router.post("/temp")
+# # Union[List[str], None] = Query(default=None)
+# # 
+# def get_user_role(test: Annotated[str, Form()]):
+#     for i in test:
+#         print(i)
 
-#     return roles
+#     return test
+
+
+@router.get("/avatar/{file_name}")
+def get_avatar(
+        file_name: str,
+    ):
+
+    path = os.path.join("app", "public", "avatar", file_name)
+
+    if os.path.exists(path):
+        return FileResponse(path)
+    else:
+        exception = HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="baby's avatar not found!",
+        )
+        raise exception

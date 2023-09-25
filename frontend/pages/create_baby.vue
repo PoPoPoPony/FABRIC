@@ -10,6 +10,7 @@ import { api_base_url } from '@/apis/api_base_url'
 import { v4 as uuidv4 } from 'uuid';
 import { useUserStore } from "@/stores/user"
 // import { ElLoading } from 'element-plus'
+import { APIUpdateBabyInfo } from "@/apis/baby"
 
 export default {
     props: [],
@@ -100,6 +101,7 @@ export default {
             // 整合id、name、sex、... etc的物件(avatar由el-upload上傳)
             baby_data: {},
             upload_key: 0,
+            baby_id: uuidv4(),
         }
     },
     methods: {
@@ -202,6 +204,7 @@ export default {
         },
         
         async store_click() {
+            console.log("store click")
             // let checked = this.check_baby_data()
             // if (checked['status']) {
             //     this.send_backend()
@@ -220,29 +223,65 @@ export default {
 
             // submit the baby avatar
 
-            const userStore = useUserStore()
+            // const userStore = useUserStore()
 
-            this.baby_data = {
-                'baby_id': uuidv4(),
-                'baby_name': this.baby_name,
-                'baby_birth': this.baby_birth,
-                'baby_sex': this.baby_sex,
-                'baby_diseases': this.baby_diseases,
-                'user_role': userStore.user_role
-            }
+            // this.baby_data = {
+            //     'baby_id': uuidv4(),
+            //     'baby_name': this.baby_name,
+            //     'baby_birth': this.baby_birth,
+            //     'baby_sex': this.baby_sex,
+            //     'baby_diseases': this.baby_diseases.join(','),
+            //     'user_role': userStore.user_role
+            // }
 
-            await this.$refs.upload.submit()
-            this.upload_key+=1
+            // await this.$refs.upload.submit()
+
+            await APIUpdateBabyInfo(
+                this.baby_id,
+                this.files[0].raw,
+                this.baby_name,
+                this.baby_birth,
+                this.baby_sex,
+                this.baby_diseases.join(','),
+            )
+
+            // this.upload_key+=1
+
         },
 
         before_baby_avatar_upload (file) {
-            if (file.type !== 'image/jpeg' || file.type !== 'image/jpg' || file.type !== 'image/png') {
+            if (file.type !== 'image/jpeg' && file.type !== 'image/jpg' && file.type !== 'image/png') {
                 ElMessage.error('Avatar picture must be JPG/JPEG/PNG format!')
                 return false
+            } else {
+                console.log(this.files[0])
+                let new_file = new File([this.files[0]['raw']], this.files[0]['raw']['name'])
+
             }
         },
+
+        baby_avatar_upload_error() {
+            console.log("error")
+        },
+
+        baby_avatar_upload_success() {
+            ElMessage({
+                message: "Success!",
+                type: "success",
+            })
+
+            navigateTo("baby_detail_list")
+        },
+
+        go_back () {
+            navigateTo("/baby_detail_list")
+        },
+
         send_backend() {
 
+        },
+        temp() {
+            // console.log(this.baby_diseases.join(','))
         }
     }
 }
@@ -256,7 +295,7 @@ export default {
         <div class="bg-neutral-50 h-20">
             <div class="grid grid-cols-3 gap-1 pt-10">
                 <div class="col-start-1 col-span-1 ml-2 justify-self-start">
-                    <el-button text>
+                    <el-button text @click="go_back">
                         <svg xmlns="http://www.w3.org/2000/svg" style="display: inline;" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="font-bold text-orange-400 w-5 h-5 place-self-center">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                         </svg>
@@ -274,7 +313,7 @@ export default {
 
         </div>
         <div class="grid h-80 pt-8 w-full place-items-center">
-            <el-upload :key="upload_key" accept="image/*" :before-upload="before_baby_avatar_upload" :on-error="on_error" class="place-items-center" ref="upload" :file-list="files" :class="{hide:hideUpload}" :action="backend_info['url']" :on-change="handleChange" list-type="picture-card" :limit="1" :auto-upload="false" :headers="backend_info['header']" :data="baby_data" name="baby_avatar">
+            <el-upload :key="upload_key" :on-error="baby_avatar_upload_error" :on-success="baby_avatar_upload_success" :before-upload="before_baby_avatar_upload" accept="image/jpg,image/png,image/jpeg" class="place-items-center" ref="upload" :file-list="files" :class="{hide:hideUpload}" :action="backend_info['url']" :on-change="handleChange" list-type="picture-card" :limit="1" :auto-upload="false" :headers="backend_info['header']" :data="baby_data" name="baby_avatar">
                 <el-icon size='20' style='font-weight:bold;' >
                     <Plus/>
                 </el-icon>
@@ -373,7 +412,7 @@ export default {
                 </client-only>
             </div>
         </div>
-
+        <el-button @click="temp">123</el-button>
 
 
     </div>
