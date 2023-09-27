@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, Depends, Form, File, UploadFile, Query, status
+from fastapi import APIRouter, HTTPException, Depends, Form, File, UploadFile, Query, status, Body
 from fastapi.responses import FileResponse
 from typing import Annotated, Union, Optional
 from app.db.database import get_db
 from app.db.models import Role as DBRole
+from app.db.models import Interaction as DBInteraction
 from app.schemas.user import UserData, UserInfo
 from app.schemas.baby import SexType
 from app.schemas.interaction import Interaction
@@ -39,33 +40,49 @@ def create_baby(
         user_role: Annotated[UserRoleEnum, Form()],
         current_user: UserInfo = Depends(utils_auth.get_current_user)
     ):
-    # print(current_user)
-    # print(baby_id)
-    # print(baby_name)
-    # print(type(baby_avatar))
-    # print(baby_avatar)
-    # print(baby_birth)
-    # print(baby_sex)
-    # print(baby_diseases)
-    db = next(get_db())
-    baby_diseases = baby_diseases.split(',')
-    crud_baby.create_baby(
-        baby_id,
-        baby_name,
-        baby_avatar,
-        baby_birth,
-        baby_sex,
-        baby_diseases,
-        current_user,
-        db
-    )
 
-    interaction = Interaction(
-        user_id=current_user.user_id,
-        baby_id=baby_id,
-        user_role=user_role
-    )
-    crud_interaction.create_interaction(interaction, db)
+    db = next(get_db())
+    # baby_desease = -1 時代表沒有遺傳性疾病
+    if baby_diseases == '-1':
+        baby_diseases = ["-1"]
+    else:
+        baby_diseases = baby_diseases.split(',')
+
+    # check if interaction exist
+    is_interaction = crud_interaction.check_interaction(baby_id, current_user.user_id, user_role, db)
+    print(is_interaction)
+    if is_interaction:
+        # update baby info
+        crud_baby.update_baby(
+            baby_id,
+            baby_name,
+            baby_avatar,
+            baby_birth,
+            baby_sex,
+            baby_diseases,
+            current_user,
+            db
+        )
+    else:
+        # create baby info and interaction between user and baby
+        crud_baby.create_baby(
+            baby_id,
+            baby_name,
+            baby_avatar,
+            baby_birth,
+            baby_sex,
+            baby_diseases,
+            current_user,
+            db
+        )
+
+        interaction = Interaction(
+            user_id=current_user.user_id,
+            baby_id=baby_id,
+            user_role=user_role
+        )
+        crud_interaction.create_interaction(interaction, db)
+    db.close()
 
 
 # @router.post("/temp")
@@ -93,3 +110,34 @@ def get_avatar(
             detail="baby's avatar not found!",
         )
         raise exception
+    
+
+@router.get("/info")
+def get_babys_info(
+        baby_ids: Annotated[list[UUID], Query()],
+        user_role: Annotated[UserRoleEnum, Query()],
+        current_user: UserInfo = Depends(utils_auth.get_current_user)
+    ):
+
+    # retv = []
+
+    # db = next(get_db())
+    # baby_infos = crud_user.get_user_babys(current_user.user_id, user_role, db)
+    # db.close()
+    # for baby_info in baby_infos:
+    #     if baby_info.baby_id in baby_ids:
+    #         retv.append(baby_info)
+    #     else:
+    #         retv.append(None)
+
+    # return retv
+    db = next(get_db())
+    for idx in range(len(baby_ids)):
+        is_interaction = crud_interaction.check_interaction(baby_ids[idx], current_user.user_id, user_role, db)
+        if not is_interaction:
+            baby_ids[idx] = None
+    
+    baby_infos = crud_baby.get_babys(baby_ids, db)
+    db.close()
+
+    return baby_infos

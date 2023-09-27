@@ -9,8 +9,10 @@ import { api_base_url } from '@/apis/api_base_url'
 // import structuredClone from '@ungap/structured-clone';
 import { v4 as uuidv4 } from 'uuid';
 import { useUserStore } from "@/stores/user"
+import { useBabyStore } from '@/stores/baby'
 // import { ElLoading } from 'element-plus'
-import { APIUpdateBabyInfo } from "@/apis/baby"
+import { APIUpdateBabyInfo, APIGetBabysInfo, APIGetAvatar } from "@/apis/baby"
+
 
 export default {
     props: [],
@@ -26,12 +28,15 @@ export default {
 
     // },
     mounted() {
-        // let file = {
-        //     url: "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg"
-        // }
-        // this.handleChange("", [file])
-        // console.log(typeof(file))
-        // console.log(file)
+        let route = useRoute()
+        let baby_idx = route.query.idx
+
+        // -1 代表完全重新建立
+        if (baby_idx > -1) {
+            let babyStore = useBabyStore()
+            let baby_id = babyStore.baby_ids[baby_idx]
+            this.fetch_baby_info(baby_id)
+        }
     },
     // computed() {
 
@@ -105,12 +110,30 @@ export default {
         }
     },
     methods: {
-        on_error(file, files) {
-            ElMessage({
-                message: "Error!",
-                type: 'error',
-            })
-            this.upload_key+=1
+        async fetch_baby_info(baby_id) {
+            let retv = await APIGetBabysInfo([baby_id])
+            if (retv['status_code'] == 200) {
+                let baby_info = retv['data'][0]
+                this.baby_name = baby_info['baby_name']
+                this.baby_sex = baby_info['baby_sex']
+                this.baby_id = baby_info['baby_id']
+                this.date_picker_change(baby_info['baby_birth'])
+                if (baby_info['baby_diseases'].length == 1 && baby_info['baby_diseases'][0]==-1){
+                    this.baby_diseases = ""
+                } else {
+                    this.baby_diseases = baby_info['baby_diseases']
+                }
+
+                // insert avater into upload element
+                let retv_avatar = await APIGetAvatar(baby_info['baby_avatar'])
+                let avatar_file = new File([retv_avatar['data']], "1.jpg")
+                let url = URL.createObjectURL(avatar_file)
+                this.handleChange({
+                    "url": url,
+                    "raw":avatar_file
+                }, "")
+            }
+
         },
 
         handleRemove(file) {
@@ -130,22 +153,11 @@ export default {
         // },
 
         handleChange(file, files) {
-            if (file.status == 'ready') {
-                if (this.files.length == 0) {
-                    this.files.push(file)
-                } else if (this.files.length == 1) {
-                    this.files[0] = file
-                }
-            }
-            
-
+            this.files[0] = file
             this.hideUpload = this.files.length >= 1
         },
         date_picker_change(date_str) {
             this.baby_birth = date_str
-        },
-        disease_change(vals) {
-            console.log(vals)
         },
         show_error(message) {
             ElMessage({
@@ -205,84 +217,36 @@ export default {
         
         async store_click() {
             console.log("store click")
-            // let checked = this.check_baby_data()
-            // if (checked['status']) {
-            //     this.send_backend()
-            // } else {
-            //     this.show_error(checked['message'])
-            // }
-
-            // console.log(typeof(this.files[0]))
-            // console.log(this.files[0])
-
-            // console.log(this.files)
-            // console.log(this.baby_sex)
-            // console.log(this.baby_name)
-            // console.log(this.baby_diseases)
-            // console.log(this.baby_birth)
-
-            // submit the baby avatar
-
-            // const userStore = useUserStore()
-
-            // this.baby_data = {
-            //     'baby_id': uuidv4(),
-            //     'baby_name': this.baby_name,
-            //     'baby_birth': this.baby_birth,
-            //     'baby_sex': this.baby_sex,
-            //     'baby_diseases': this.baby_diseases.join(','),
-            //     'user_role': userStore.user_role
-            // }
-
-            // await this.$refs.upload.submit()
-
-            await APIUpdateBabyInfo(
-                this.baby_id,
-                this.files[0].raw,
-                this.baby_name,
-                this.baby_birth,
-                this.baby_sex,
-                this.baby_diseases.join(','),
-            )
-
-            // this.upload_key+=1
-
-        },
-
-        before_baby_avatar_upload (file) {
-            if (file.type !== 'image/jpeg' && file.type !== 'image/jpg' && file.type !== 'image/png') {
-                ElMessage.error('Avatar picture must be JPG/JPEG/PNG format!')
-                return false
+            let checked = this.check_baby_data()
+            if (checked['status']) {
+                this.send_backend()
             } else {
-                console.log(this.files[0])
-                let new_file = new File([this.files[0]['raw']], this.files[0]['raw']['name'])
-
+                this.show_error(checked['message'])
             }
-        },
 
-        baby_avatar_upload_error() {
-            console.log("error")
-        },
-
-        baby_avatar_upload_success() {
-            ElMessage({
-                message: "Success!",
-                type: "success",
-            })
-
-            navigateTo("baby_detail_list")
         },
 
         go_back () {
             navigateTo("/baby_detail_list")
         },
 
-        send_backend() {
-
+        async send_backend() {
+            
+            let baby_diseases = ""
+            if (this.baby_diseases == "") {
+                baby_diseases = "-1"
+            } else {
+                baby_diseases = this.baby_diseases.join(',')
+            }
+            await APIUpdateBabyInfo(
+                this.baby_id,
+                this.files[0].raw,
+                this.baby_name,
+                this.baby_birth,
+                this.baby_sex,
+                baby_diseases,
+            )
         },
-        temp() {
-            // console.log(this.baby_diseases.join(','))
-        }
     }
 }
 
@@ -313,7 +277,7 @@ export default {
 
         </div>
         <div class="grid h-80 pt-8 w-full place-items-center">
-            <el-upload :key="upload_key" :on-error="baby_avatar_upload_error" :on-success="baby_avatar_upload_success" :before-upload="before_baby_avatar_upload" accept="image/jpg,image/png,image/jpeg" class="place-items-center" ref="upload" :file-list="files" :class="{hide:hideUpload}" :action="backend_info['url']" :on-change="handleChange" list-type="picture-card" :limit="1" :auto-upload="false" :headers="backend_info['header']" :data="baby_data" name="baby_avatar">
+            <el-upload :key="upload_key" accept="image/jpg,image/png,image/jpeg" class="place-items-center" ref="upload" :file-list="files" :class="{hide:hideUpload}" :action="backend_info['url']" :on-change="handleChange" list-type="picture-card" :limit="1" :auto-upload="false" :headers="backend_info['header']" :data="baby_data" name="baby_avatar">
                 <el-icon size='20' style='font-weight:bold;' >
                     <Plus/>
                 </el-icon>
@@ -387,7 +351,7 @@ export default {
                 <span class="self-center col-start-1 col-span-3">出生日期 : </span>
                 <div class="col-start-4 col-span-7">
                     <client-only>
-                        <record-datepicker default_date="" @date_picker_change="date_picker_change"/>
+                        <record-datepicker :default_date="baby_birth" @date_picker_change="date_picker_change"/>
                     </client-only>
                 </div>
             </div>
@@ -412,9 +376,6 @@ export default {
                 </client-only>
             </div>
         </div>
-        <el-button @click="temp">123</el-button>
-
-
     </div>
 </template>
 

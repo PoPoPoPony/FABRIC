@@ -29,5 +29,12 @@ class SexType(str, Enum):
 #     baby_name: str
 #     baby_avatar: str
 
+    # class Config:
+    #     from_attributes=True
+
+
+# class BabyID(BaseModel):
+#     baby_ids: UUID
+
 #     class Config:
 #         from_attributes=True

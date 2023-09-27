@@ -82,7 +82,7 @@ export const APIUserLogin = async (user_email, pwd) => {
         onRequest({ request, options }) {
             options.baseURL = api_base_url
             options.method = 'post'
-            options.retry = 3
+            // options.retry = 3
             options.body = req_form
         },
         onRequestError({ request, options, error }) {
@@ -126,7 +126,7 @@ export const APIGetUserRole = async (access_token) => {
         onRequest({ request, options }) {
             options.baseURL = api_base_url
             options.method = 'get'
-            options.retry = 3
+            // options.retry = 3
             options.headers = {
                 'Authorization': `Bearer ${access_token}`
             }
@@ -158,7 +158,6 @@ export const APIGetUserRole = async (access_token) => {
     }
 }
 
-// Basic -> 只拿id, name, avatar
 export const APIGetUserBabys = async () => {
     let status_code = ''
     let message = ''
@@ -168,7 +167,7 @@ export const APIGetUserBabys = async () => {
         onRequest({ request, options }) {
             options.baseURL = api_base_url
             options.method = 'get'
-            options.retry = 3
+            // options.retry = 3
             options.headers = {
                 'Authorization': `Bearer ${useCookie("access_token").value}`
             },

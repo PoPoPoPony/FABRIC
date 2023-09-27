@@ -42,6 +42,7 @@ def create_user(user:UserData, db: Session=Depends(get_db)):
 def get_user_role(current_user: UserInfo = Depends(utils_auth.get_current_user)):
     db = next(get_db())
     roles = db.query(DBRole).filter(DBRole.user_id == current_user.user_id).all()
+    db.close()
 
     return roles
 
@@ -49,6 +50,7 @@ def get_user_role(current_user: UserInfo = Depends(utils_auth.get_current_user))
 def get_user_babys(user_role: Annotated[UserRoleEnum, Query()], current_user: UserInfo = Depends(utils_auth.get_current_user)):
     db = next(get_db())
     baby_infos = crud_user.get_user_babys(current_user.user_id, user_role, db)
+    db.close()
 
     return baby_infos
 

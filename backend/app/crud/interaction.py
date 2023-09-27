@@ -19,3 +19,12 @@ def create_interaction(
         db.add(new_interaction)
         db.commit()
         db.refresh(new_interaction)
+
+
+def check_interaction(baby_id, user_id, user_role, db):
+    interaction = db.query(DB_Interaction).filter(DB_Interaction.user_id == user_id, DB_Interaction.baby_id == baby_id, DB_Interaction.user_role == user_role).first()
+    # 若user沒有與baby bind的話
+    if interaction:
+        return True
+    else:
+        return False
